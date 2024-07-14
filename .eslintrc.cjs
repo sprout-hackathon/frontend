@@ -1,44 +1,60 @@
 module.exports = {
   root: true,
-  env: { browser: true, es2020: true },
+  env: {
+    browser: true,
+    es2020: true
+  },
   extends: [
-    'eslint:recommended',
-    'plugin:import/warnings',
-    'plugin:jsx-a11y/recommended',
-    'plugin:prettier/recommended',
-    'plugin:react/recommended',
-    'plugin:react/jsx-runtime',
-    'plugin:react-hooks/recommended',
-    'prettier',
+    "eslint:recommended",
+    "plugin:import/warnings",
+    "plugin:react/jsx-runtime",
+    "plugin:jsx-a11y/recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:prettier/recommended",
+    "prettier"
   ],
-  ignorePatterns: ['dist', '.eslintrc.cjs'],
-  parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
+  ignorePatterns: ["dist", ".eslintrc.cjs"],
+  parserOptions: {
+    ecmaVersion: "latest",
+    sourceType: "module"
+  },
   settings: {
-    react: { version: '18.2' },
-    'import/resolver': {
-      node: {
-        extensions: ['.js', '.jsx', '.css'],
-      },
+    react: {
+      version: "18.2"
     },
+    "import/resolver": {
+      node: {
+        extensions: [".js", ".jsx", ".ts", ".tsx", ".css"]
+      }
+    }
   },
   plugins: [
-    'import',
-    'jsx-a11y',
-    'react',
-    'react-hooks',
-    'react-refresh',
-    'prettier',
+    "import",
+    "jsx-a11y",
+    "react",
+    "react-hooks",
+    "react-refresh",
+    "prettier",
+    "tailwindcss"
   ],
   rules: {
-    'arrow-body-style': 'off',
-    'prefer-arrow-callback': 'off',
-    'prettier/prettier': 'error',
-    'react/jsx-no-target-blank': 'off',
-    'react-refresh/only-export-components': [
-      'warn',
-      { allowConstantExport: true },
+    "react/react-in-jsx-scope": "off",
+    "prettier/prettier": ["error", {
+      "endOfLine": "auto"
+    }],
+    "arrow-body-style": "off",
+    "prefer-arrow-callback": "off",
+    "react/jsx-no-target-blank": "off",
+    "react-refresh/only-export-components": [
+      "warn",
+      {
+        allowConstantExport: true
+      }
     ],
-    'no-unused-vars': 'warn',
-    eqeqeq: ['error', 'always'],
-  },
+    "no-unused-vars": "warn",
+    "eqeqeq": ["error", "always"],
+    "tailwindcss/classnames-order": "warn",
+    "tailwindcss/no-custom-classname": "off"
+  }
 };

@@ -11,5 +11,4 @@ coverage/
 .vscode/
 .idea/
 .DS_Store
-*.config.js
 package-lock.json

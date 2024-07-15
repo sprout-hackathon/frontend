@@ -1,4 +1,5 @@
 import InfoCard from '../components/Home/InfoCard';
+import TagContainer from '../components/Home/TagContainer';
 
 const Home = () => {
   return (
@@ -13,6 +14,7 @@ const Home = () => {
       </h5>
       <hr />
       <h3 className='px-5 py-4 text-2xl font-bold'>내 근처 찾아보기</h3>
+      <TagContainer />
       <ul className='flex flex-col gap-3 p-5'>
         <InfoCard />
         <InfoCard />

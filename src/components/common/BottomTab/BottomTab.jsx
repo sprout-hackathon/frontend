@@ -1,13 +1,13 @@
 import BottomTabButton from './BottomTabButton';
 
-import homeGrayIcon from '../../assets/icons/home-gray.svg';
-import homeBlueIcon from '../../assets/icons/home-blue.svg';
-import historyGrayIcon from '../../assets/icons/history-gray.svg';
-import historyBlueIcon from '../../assets/icons/history-blue.svg';
-import communityGrayIcon from '../../assets/icons/community-gray.svg';
-import communityBlueIcon from '../../assets/icons/community-blue.svg';
-import mypageGrayIcon from '../../assets/icons/mypage-gray.svg';
-import mypageBlueIcon from '../../assets/icons/mypage-blue.svg';
+import homeGrayIcon from '../../../assets/icons/home-gray.svg';
+import homeBlueIcon from '../../../assets/icons/home-blue.svg';
+import historyGrayIcon from '../../../assets/icons/history-gray.svg';
+import historyBlueIcon from '../../../assets/icons/history-blue.svg';
+import communityGrayIcon from '../../../assets/icons/community-gray.svg';
+import communityBlueIcon from '../../../assets/icons/community-blue.svg';
+import mypageGrayIcon from '../../../assets/icons/mypage-gray.svg';
+import mypageBlueIcon from '../../../assets/icons/mypage-blue.svg';
 import ChatbotButton from './ChatbotButton';
 
 const BottomTab = () => {

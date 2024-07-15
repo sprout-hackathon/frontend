@@ -16,6 +16,8 @@ const Home = () => {
       <h3 className='px-5 py-4 text-2xl font-bold'>내 근처 찾아보기</h3>
       <TagContainer />
       <ul className='flex flex-col gap-3 p-5'>
+        {/* TODO: 실제 데이터 fetch해서 map으로 전달 */}
+        {/* TODO: 필요 시 무한스크롤 구현 */}
         <InfoCard />
         <InfoCard />
         <InfoCard />

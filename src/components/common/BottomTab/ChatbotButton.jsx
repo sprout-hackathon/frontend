@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import chatIcon from '../../assets/icons/chatbot-yellow.svg';
+import chatIcon from '../../../assets/icons/chatbot-yellow.svg';
 
 const ChatbotButton = () => {
   return (

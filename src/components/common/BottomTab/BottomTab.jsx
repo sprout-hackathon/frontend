@@ -12,7 +12,7 @@ import ChatbotButton from './ChatbotButton';
 
 const BottomTab = () => {
   return (
-    <div className='flex h-20 flex-row items-center justify-stretch rounded-t-xl border bg-white'>
+    <div className='absolute flex h-20 w-full flex-row items-center justify-stretch rounded-t-xl border bg-white'>
       <BottomTabButton
         text='홈'
         path='/'

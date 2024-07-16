@@ -1,27 +1,38 @@
-import { useNavigate, useParams } from 'react-router-dom';
-import leftChevronIcon from '../assets/icons/left-chevron.svg';
-import InfoCard from '../components/Home/InfoCard';
+import { useNavigate, useParams } from "react-router-dom";
+import leftChevronIcon from "../assets/icons/left-chevron.svg";
+import InfoCard from "../components/Home/InfoCard";
+import { useState } from "react";
+import Modal from "../components/common/Modal/Modal";
+import ModalText from "../components/common/Modal/ModalText";
+import ModalButton from "../components/common/Modal/ModalButton";
 
 const HomeDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
 
   // TODO: id로 실제 데이터 fetch해서 보여주기
 
+  const handleSubmit = () => {
+    // 지원하기
+    // 지원 성공 여부에 따라 모달 표시
+    setIsOpen(true);
+  };
+
   return (
-    <div className='relative h-dvh p-5 pb-0'>
-      <div className='h-full overflow-y-auto pb-20'>
-        <div className='mb-3'>
-          <button onClick={() => navigate('/')}>
-            <img src={leftChevronIcon} alt='leftchevron icon' />
+    <div className="relative h-dvh p-5 pb-0">
+      <div className="h-full overflow-y-auto pb-20">
+        <div className="mb-3">
+          <button onClick={() => navigate("/")}>
+            <img src={leftChevronIcon} alt="leftchevron icon" />
           </button>
         </div>
         <InfoCard />
-        <div className='mt-4 rounded-2xl border p-4'>
-          <h4 className='mb-4 text-lg font-bold'>
+        <div className="mt-4 rounded-2xl border p-4">
+          <h4 className="mb-4 text-lg font-bold">
             봄봄재가노인복지센터에서 외국인 요양보호사를 모집합니다!
           </h4>
-          <p className='whitespace-pre-line text-base'>{`1. 주 업무
+          <p className="whitespace-pre-line text-base">{`1. 주 업무
         주간보호센터 요양보호사 업무
         이용대상자에 대한 신체활동, 인지활동, 일상생활 수발등의 서비스 제공.
         송영서비스
@@ -49,9 +60,26 @@ const HomeDetail = () => {
  : 40시간`}</p>
         </div>
       </div>
-      <button className='absolute bottom-5 left-1/2 h-12 w-11/12 -translate-x-1/2 transform rounded-xl bg-blue text-lg text-white'>
+      <button
+        onClick={handleSubmit}
+        className="absolute bottom-5 left-1/2 h-12 w-11/12 -translate-x-1/2 transform rounded-xl bg-blue text-lg text-white"
+      >
         지원하기
       </button>
+      {isOpen && (
+        <Modal onClickClose={() => setIsOpen(false)}>
+          <ModalText
+            text="지원이 완료되었어요!
+          좋은 결과를 기대할게요 :)"
+          />
+          <ModalButton text="홈으로" onClick={() => navigate("/")} />
+          <ModalButton
+            text="나의 지원 내역 확인하기"
+            onClick={() => navigate("/mypage")}
+          />
+          {/* TODO: 지원내역 path 수정 */}
+        </Modal>
+      )}
     </div>
   );
 };

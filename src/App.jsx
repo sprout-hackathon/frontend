@@ -3,20 +3,24 @@ import Home from './pages/Home';
 import BottomTab from './components/common/BottomTab/BottomTab';
 import HomeDetail from './pages/HomeDetail';
 import Chatbot from './pages/Chatbot';
-import History from './pages/History';
-import HistoryDetail from './pages/HistoryDetail';
-import Login from './pages/Login'; 
+import ChatLog from './pages/ChatLog';
+import ChatLogDetail from './pages/ChatLogDetail';
+import Mypage from './pages/Mypage';
+import EditProfile from './pages/EditProfile';
+import Login from './pages/Login';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/login' element={<Login/>}/>
+        <Route path='/login' element={<Login />} />
         <Route path='/detail/:id' element={<HomeDetail />} />
-        <Route path='/history' element={<History />} />
-        <Route path='/history/detail/:id' element={<HistoryDetail />} />
+        <Route path='/chatlog' element={<ChatLog />} />
+        <Route path='/chatlog/detail/:id' element={<ChatLogDetail />} />
         <Route path='/chatbot' element={<Chatbot />} />
+        <Route path='/mypage' element={<Mypage />} />
+        <Route path='/mypage/edit' element={<EditProfile />} />
       </Routes>
       <BottomTab />
     </BrowserRouter>

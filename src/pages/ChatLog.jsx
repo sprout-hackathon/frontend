@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import HistoryCard from '../components/history/HistoryCard';
+import ChatlogCard from '../components/chatlog/ChatlogCard';
 
-const History = () => {
+const ChatLog = () => {
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
 
   return (
@@ -21,15 +21,15 @@ const History = () => {
         className='mx-5 my-4 text-lg font-bold hover:cursor-pointer focus:outline-none'
       />
       <ul className='flex grow flex-col gap-4 overflow-y-auto p-5 pt-0'>
-        <HistoryCard />
-        <HistoryCard />
-        <HistoryCard />
-        <HistoryCard />
-        <HistoryCard />
-        <HistoryCard />
+        <ChatlogCard />
+        <ChatlogCard />
+        <ChatlogCard />
+        <ChatlogCard />
+        <ChatlogCard />
+        <ChatlogCard />
       </ul>
     </div>
   );
 };
 
-export default History;
+export default ChatLog;

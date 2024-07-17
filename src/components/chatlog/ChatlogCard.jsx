@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 
-const HistoryCard = () => {
+const ChatlogCard = () => {
   return (
     <li className='rounded-2xl border p-4'>
-      <Link to='/history/detail/0'>
+      <Link to='/chatlog/detail/0'>
         <p className='mb-1 text-base font-semibold'>
           외국인 요양보호사 자격증의 필요 조건이 뭐야?
         </p>
@@ -16,4 +16,4 @@ const HistoryCard = () => {
   );
 };
 
-export default HistoryCard;
+export default ChatlogCard;

@@ -6,6 +6,7 @@ import Chatbot from './pages/Chatbot';
 import ChatLog from './pages/ChatLog';
 import ChatLogDetail from './pages/ChatLogDetail';
 import Mypage from './pages/Mypage';
+import EditProfile from './pages/EditProfile';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path='/chatlog/detail/:id' element={<ChatLogDetail />} />
         <Route path='/chatbot' element={<Chatbot />} />
         <Route path='/mypage' element={<Mypage />} />
+        <Route path='/mypage/edit' element={<EditProfile />} />
       </Routes>
       <BottomTab />
     </BrowserRouter>

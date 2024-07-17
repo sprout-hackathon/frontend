@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import checkIcon from '../../assets/icons/check-badge.svg';
 
 const ProfileSection = () => {
@@ -11,7 +12,9 @@ const ProfileSection = () => {
           </div>
           <p className='text-sm font-semibold text-gray-400'>abcde1234</p>
         </div>
-        <button className='btn-gray text-xs'>편집하기</button>
+        <Link to='/mypage/edit' className='btn-gray text-xs'>
+          편집하기
+        </Link>
       </div>
       <div className='mt-2 flex flex-row items-center gap-2 text-xs'>
         <span>경력</span>

@@ -16,7 +16,7 @@ const BottomTab = () => {
 
   if (
     (location.pathname === '/') |
-    (location.pathname === '/history') |
+    (location.pathname === '/chatlog') |
     (location.pathname === '/community') |
     (location.pathname === '/mypage')
   ) {
@@ -30,7 +30,7 @@ const BottomTab = () => {
         />
         <BottomTabButton
           text='챗봇 내역'
-          path='/history'
+          path='/chatlog'
           blueIcon={historyBlueIcon}
           grayIcon={historyGrayIcon}
         />

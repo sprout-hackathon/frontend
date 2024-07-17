@@ -8,6 +8,7 @@ import ChatLogDetail from './pages/ChatLogDetail';
 import Mypage from './pages/Mypage';
 import EditProfile from './pages/EditProfile';
 import Login from './pages/Login';
+import ApplyList from './pages/ApplyList';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path='/chatbot' element={<Chatbot />} />
         <Route path='/mypage' element={<Mypage />} />
         <Route path='/mypage/edit' element={<EditProfile />} />
+        <Route path='/mypage/apply' element={<ApplyList />} />
       </Routes>
       <BottomTab />
     </BrowserRouter>

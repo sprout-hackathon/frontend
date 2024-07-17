@@ -19,7 +19,7 @@ const Mypage = () => {
         <h2 className='text-xl font-bold'>나의 지원 목록</h2>
         <button onClick={handleApplyClick}>전체보기</button>
       </div>
-      <ApplyCard />
+      <ApplyCard data={''} disabled />
       <div className='-mb-2 flex flex-row justify-between px-5'>
         <h2 className='text-xl font-bold'>나의 근무 이력</h2>
         <button onClick={handleHistoryClick}>전체보기</button>

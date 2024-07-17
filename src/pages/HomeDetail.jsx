@@ -5,13 +5,20 @@ import { useState } from 'react';
 import Modal from '../components/common/Modal/Modal';
 import ModalText from '../components/common/Modal/ModalText';
 import ModalButton from '../components/common/Modal/ModalButton';
+import scrapGrayIcon from '../assets/icons/scrap-gray.svg';
+import scrapBlackIcon from '../assets/icons/scrap-black.svg';
 
 const HomeDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
+  const [isScrapped, setIsScrapped] = useState(false);
 
   // TODO: id로 실제 데이터 fetch해서 보여주기
+
+  const handleScrap = () => {
+    setIsScrapped((prev) => !prev);
+  };
 
   const handleSubmit = () => {
     // 지원하기
@@ -22,10 +29,31 @@ const HomeDetail = () => {
   return (
     <div className='relative h-dvh p-5 pb-0'>
       <div className='h-full overflow-y-auto pb-20'>
-        <div className='mb-3'>
+        <div className='mb-3 flex flex-row justify-between'>
           <button onClick={() => navigate('/')}>
             <img src={leftChevronIcon} alt='leftchevron icon' />
           </button>
+          {isScrapped ? (
+            <button
+              onClick={handleScrap}
+              className='border-yellow-dark rounded-xl border bg-yellow px-2 py-1 text-sm text-black'
+            >
+              <img src={scrapBlackIcon} alt='scrap icon' className='inline' />
+              취소
+            </button>
+          ) : (
+            <button
+              onClick={handleScrap}
+              className='rounded-xl border border-gray-400 px-2 py-1 text-sm text-gray-600'
+            >
+              <img
+                src={scrapGrayIcon}
+                alt='scrap icon'
+                className='mr-1 inline'
+              />
+              스크랩
+            </button>
+          )}
         </div>
         <InfoCard />
         <div className='mt-4 rounded-2xl border p-4'>

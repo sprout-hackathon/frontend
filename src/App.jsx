@@ -3,6 +3,7 @@ import Home from './pages/Home';
 import BottomTab from './components/common/BottomTab/BottomTab';
 import HomeDetail from './pages/HomeDetail';
 import Chatbot from './pages/Chatbot';
+import History from './pages/History';
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/detail/:id' element={<HomeDetail />} />
+        <Route path='/history' element={<History />} />
         <Route path='/chatbot' element={<Chatbot />} />
       </Routes>
       <BottomTab />

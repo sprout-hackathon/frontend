@@ -8,6 +8,7 @@ export default {
       blue: { DEFAULT: '#4457FC', light: '#C7CDFF' },
       yellow: {
         DEFAULT: '#FFDA19',
+        dark: '#DFBC02',
       },
       red: '#F22929',
       black: '#000000',

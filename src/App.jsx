@@ -7,12 +7,14 @@ import ChatLog from './pages/ChatLog';
 import ChatLogDetail from './pages/ChatLogDetail';
 import Mypage from './pages/Mypage';
 import EditProfile from './pages/EditProfile';
+import Login from './pages/Login';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Home />} />
+        <Route path='/login' element={<Login />} />
         <Route path='/detail/:id' element={<HomeDetail />} />
         <Route path='/chatlog' element={<ChatLog />} />
         <Route path='/chatlog/detail/:id' element={<ChatLogDetail />} />

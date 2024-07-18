@@ -5,6 +5,7 @@ import HomeDetail from './pages/HomeDetail';
 import Chatbot from './pages/Chatbot';
 import History from './pages/History';
 import HistoryDetail from './pages/HistoryDetail';
+import Signup from './pages/Signup';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path='/history' element={<History />} />
         <Route path='/history/detail/:id' element={<HistoryDetail />} />
         <Route path='/chatbot' element={<Chatbot />} />
+        <Route path='/signup' element={<Signup/>}/>
       </Routes>
       <BottomTab />
     </BrowserRouter>

@@ -1,32 +1,45 @@
+import { useNavigate } from 'react-router-dom';
+import leftChevronIcon from '../assets/icons/left-chevron.svg';
+import addIcon from '../assets/icons/add-gray.svg';
 import { useState } from 'react';
-import HistoryCard from '../components/history/HistoryCard';
+import HistoryCard from '../components/mypage/HistoryCard';
+
+const dataList = [0, 1, 2, 3, 4];
 
 const History = () => {
-  const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+  const [isEditing, setEditing] = useState(false);
+  const navigate = useNavigate();
+
+  const handleEdit = () => {
+    setEditing((editing) => !editing);
+  };
 
   return (
-    <div className='-mb-20 flex h-dvh flex-col pb-20'>
-      <h1 className='mb-2 whitespace-pre-line px-5 pt-5 text-3xl font-bold'>
-        챗봇 대화 내역
-      </h1>
-      <h5 className='mb-3 px-5 text-sm text-blue'>
-        챗봇과의 대화 내역을 다시 볼 수 있어요.
-      </h5>
-      <hr />
-      {/* <p className='px-5 pb-0 pt-3 text-lg font-bold'>2024.07.18.</p> */}
-      <input
-        type='date'
-        value={date}
-        onChange={(e) => setDate(e.target.value)}
-        className='mx-5 my-4 text-lg font-bold hover:cursor-pointer focus:outline-none'
-      />
-      <ul className='flex grow flex-col gap-4 overflow-y-auto p-5 pt-0'>
-        <HistoryCard />
-        <HistoryCard />
-        <HistoryCard />
-        <HistoryCard />
-        <HistoryCard />
-        <HistoryCard />
+    <div className='flex h-dvh flex-col overflow-y-auto pb-5'>
+      <div className='flex w-full flex-row items-center px-5 py-4'>
+        <button onClick={() => navigate(-1)} className='mr-8'>
+          <img src={leftChevronIcon} alt='back icon' />
+        </button>
+        <h1 className='mx-auto text-lg font-semibold'>나의 근무 이력</h1>
+        {isEditing ? (
+          <button onClick={handleEdit} className='btn-gray text-xs'>
+            완료하기
+          </button>
+        ) : (
+          <button onClick={handleEdit} className='btn-gray text-xs'>
+            편집하기
+          </button>
+        )}
+      </div>
+      {isEditing && (
+        <button className='mb-3 ml-auto mr-5 mt-2'>
+          <img src={addIcon} alt='add icon' />
+        </button>
+      )}
+      <ul className='flex flex-col gap-4'>
+        {dataList.map((data, index) => (
+          <HistoryCard key={index} data={data} editable={isEditing} />
+        ))}
       </ul>
     </div>
   );

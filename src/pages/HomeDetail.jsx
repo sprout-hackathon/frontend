@@ -30,7 +30,7 @@ const HomeDetail = () => {
     <div className='relative h-dvh p-5 pb-0'>
       <div className='h-full overflow-y-auto pb-20'>
         <div className='mb-3 flex flex-row justify-between'>
-          <button onClick={() => navigate('/')}>
+          <button onClick={() => navigate(-1)}>
             <img src={leftChevronIcon} alt='leftchevron icon' />
           </button>
           {isScrapped ? (

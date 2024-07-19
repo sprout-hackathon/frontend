@@ -11,6 +11,7 @@ import Login from './pages/Login';
 import ApplyList from './pages/ApplyList';
 import History from './pages/History';
 import Scrap from './pages/Scrap';
+import Signup from './pages/Signup';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path='/mypage/apply' element={<ApplyList />} />
         <Route path='/mypage/history' element={<History />} />
         <Route path='/mypage/scrap' element={<Scrap />} />
+        <Route path='/signup' element={<Signup/>}/>
       </Routes>
       <BottomTab />
     </BrowserRouter>

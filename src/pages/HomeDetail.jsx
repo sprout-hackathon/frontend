@@ -7,7 +7,7 @@ import ModalText from '../components/common/Modal/ModalText';
 import ModalButton from '../components/common/Modal/ModalButton';
 import scrapGrayIcon from '../assets/icons/scrap-gray.svg';
 import scrapBlackIcon from '../assets/icons/scrap-black.svg';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 const HomeDetail = () => {
   const { id } = useParams();
@@ -21,6 +21,17 @@ const HomeDetail = () => {
         (res) => res.json()
       ),
   });
+  const { mutate: apply } = useMutation({
+    mutationFn: () =>
+      fetch(`${import.meta.env.VITE_BASE_URL}/api/applications`, {
+        method: 'POST',
+        body: JSON.stringify({ recruitmentId: id }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }),
+    onSuccess: () => setIsOpen(true),
+  });
 
   // TODO: id로 실제 데이터 fetch해서 보여주기
 
@@ -30,6 +41,7 @@ const HomeDetail = () => {
 
   const handleSubmit = () => {
     // 지원하기
+    apply();
     // 지원 성공 여부에 따라 모달 표시
     setIsOpen(true);
   };
@@ -80,7 +92,7 @@ const HomeDetail = () => {
           <ModalButton text='홈으로' onClick={() => navigate('/')} />
           <ModalButton
             text='나의 지원 내역 확인하기'
-            onClick={() => navigate('/mypage')}
+            onClick={() => navigate('/mypage/apply')}
           />
           {/* TODO: 지원내역 path 수정 */}
         </Modal>
@@ -97,9 +109,7 @@ const Container = ({ data, isPending, isError }) => {
     <>
       <InfoCard data={data} />
       <div className='mt-4 rounded-2xl border p-4'>
-        <h4 className='mb-4 text-lg font-bold'>
-          봄봄재가노인복지센터에서 외국인 요양보호사를 모집합니다!
-        </h4>
+        <h4 className='mb-4 text-lg font-bold'>{data.title}</h4>
         <p className='whitespace-pre-line text-base'>{data.content}</p>
       </div>
     </>

@@ -33,12 +33,14 @@ const Home = () => {
 };
 
 const ListContainer = ({ data, isPending, isError }) => {
-  if (isPending) return <p>공고 목록을 불러오는 중이에요</p>;
-  if (isError) return <p>공고 목록을 불러오는 데 실패했어요</p>;
+  if (isPending) return <p className='p-5'>공고 목록을 불러오는 중이에요</p>;
+  if (isError) return <p className='p-5'>공고 목록을 불러오는 데 실패했어요</p>;
+  if (data.content.length === 0)
+    return <p className='p-5'>해당 지역의 공고가 없어요</p>;
 
   return (
     <ul className='flex flex-col gap-3 p-5'>
-      {data.map((data) => (
+      {data.content.map((data) => (
         <InfoCard key={data} data={data} />
       ))}
     </ul>

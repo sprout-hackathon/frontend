@@ -5,6 +5,7 @@ import HomeDetail from './pages/HomeDetail';
 import Chatbot from './pages/Chatbot';
 import ChatLog from './pages/ChatLog';
 import ChatLogDetail from './pages/ChatLogDetail';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Mypage from './pages/Mypage';
 import EditProfile from './pages/EditProfile';
 import Login from './pages/Login';
@@ -13,25 +14,29 @@ import History from './pages/History';
 import Scrap from './pages/Scrap';
 import Signup from './pages/Signup';
 
+const queryClient = new QueryClient();
+
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/detail/:id' element={<HomeDetail />} />
-        <Route path='/chatlog' element={<ChatLog />} />
-        <Route path='/chatlog/detail/:id' element={<ChatLogDetail />} />
-        <Route path='/chatbot' element={<Chatbot />} />
-        <Route path='/mypage' element={<Mypage />} />
-        <Route path='/mypage/edit' element={<EditProfile />} />
-        <Route path='/mypage/apply' element={<ApplyList />} />
-        <Route path='/mypage/history' element={<History />} />
-        <Route path='/mypage/scrap' element={<Scrap />} />
-        <Route path='/signup' element={<Signup/>}/>
-      </Routes>
-      <BottomTab />
-    </BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/detail/:id' element={<HomeDetail />} />
+          <Route path='/chatlog' element={<ChatLog />} />
+          <Route path='/chatlog/detail/:id' element={<ChatLogDetail />} />
+          <Route path='/chatbot' element={<Chatbot />} />
+          <Route path='/mypage' element={<Mypage />} />
+          <Route path='/mypage/edit' element={<EditProfile />} />
+          <Route path='/mypage/apply' element={<ApplyList />} />
+          <Route path='/mypage/history' element={<History />} />
+          <Route path='/mypage/scrap' element={<Scrap />} />
+          <Route path='/signup' element={<Signup />} />
+        </Routes>
+        <BottomTab />
+      </BrowserRouter>
+    </QueryClientProvider>
   );
 }
 

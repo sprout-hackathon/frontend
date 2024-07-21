@@ -36,7 +36,7 @@ const HomeDetail = () => {
           {isScrapped ? (
             <button
               onClick={handleScrap}
-              className='border-yellow-dark rounded-xl border bg-yellow px-2 py-1 text-sm text-black'
+              className='rounded-xl border border-yellow-dark bg-yellow px-2 py-1 text-sm text-black'
             >
               <img src={scrapBlackIcon} alt='scrap icon' className='inline' />
               취소

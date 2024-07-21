@@ -40,8 +40,8 @@ const ListContainer = ({ data, isPending, isError }) => {
 
   return (
     <ul className='flex flex-col gap-3 p-5'>
-      {data.content.map((data) => (
-        <InfoCard key={data} data={data} />
+      {data.content.map((data, index) => (
+        <InfoCard key={index} data={data} />
       ))}
     </ul>
   );

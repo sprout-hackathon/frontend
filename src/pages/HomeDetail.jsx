@@ -14,6 +14,7 @@ const HomeDetail = () => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [isScrapped, setIsScrapped] = useState(false);
+
   const { data, isPending, isError } = useQuery({
     queryKey: ['recruitment', id],
     queryFn: () =>
@@ -21,6 +22,7 @@ const HomeDetail = () => {
         (res) => res.json()
       ),
   });
+
   const { mutate: apply } = useMutation({
     mutationFn: () =>
       fetch(`${import.meta.env.VITE_BASE_URL}/api/applications`, {
@@ -33,17 +35,37 @@ const HomeDetail = () => {
     onSuccess: () => setIsOpen(true),
   });
 
-  // TODO: id로 실제 데이터 fetch해서 보여주기
+  const { mutate: scrap } = useMutation({
+    mutationFn: () =>
+      fetch(`${import.meta.env.VITE_BASE_URL}/api/recruitments/${id}/scrap`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }),
+    onSuccess: () => setIsScrapped(true),
+  });
+
+  // TODO: id를 scrapId로 수정
+  const { mutate: unscrap } = useMutation({
+    mutationFn: () =>
+      fetch(`${import.meta.env.VITE_BASE_URL}/api/recruitments/${id}/scrap`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }),
+    onSuccess: () => setIsScrapped(false),
+  });
 
   const handleScrap = () => {
-    setIsScrapped((prev) => !prev);
+    if (isScrapped) unscrap();
+    else scrap();
   };
 
   const handleSubmit = () => {
     // 지원하기
     apply();
-    // 지원 성공 여부에 따라 모달 표시
-    setIsOpen(true);
   };
 
   return (

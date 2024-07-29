@@ -38,7 +38,6 @@ const Home = () => {
 };
 
 const ListContainer = ({ data, isPending, isError }) => {
-  console.log(data);
   if (isPending) return <p className='p-5'>공고 목록을 불러오는 중이에요</p>;
   if (isError) return <p className='p-5'>공고 목록을 불러오는 데 실패했어요</p>;
 

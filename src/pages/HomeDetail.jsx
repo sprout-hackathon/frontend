@@ -11,57 +11,32 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 
 const HomeDetail = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
+  const token = localStorage.getItem('accessToken');
   const [isOpen, setIsOpen] = useState(false);
-  const [isScrapped, setIsScrapped] = useState(false);
+  const navigate = useNavigate();
 
+  // 공고 내용 불러오기
   const { data, isPending, isError } = useQuery({
     queryKey: ['recruitment', id],
     queryFn: () =>
-      fetch(`${import.meta.env.VITE_BASE_URL}/api/recruitments/${id}`).then(
-        (res) => res.json()
-      ),
+      fetch(`${import.meta.env.VITE_BASE_URL}/api/recruitments/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      }).then((res) => res.json()),
   });
 
+  // 해당 공고에 지원하기
   const { mutate: apply } = useMutation({
     mutationFn: () =>
       fetch(`${import.meta.env.VITE_BASE_URL}/api/applications`, {
         method: 'POST',
         body: JSON.stringify({ recruitmentId: id }),
         headers: {
+          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
       }),
     onSuccess: () => setIsOpen(true),
   });
-
-  const { mutate: scrap } = useMutation({
-    mutationFn: () =>
-      fetch(`${import.meta.env.VITE_BASE_URL}/api/recruitments/${id}/scrap`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }),
-    onSuccess: () => setIsScrapped(true),
-  });
-
-  // TODO: id를 scrapId로 수정
-  const { mutate: unscrap } = useMutation({
-    mutationFn: () =>
-      fetch(`${import.meta.env.VITE_BASE_URL}/api/recruitments/${id}/scrap`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }),
-    onSuccess: () => setIsScrapped(false),
-  });
-
-  const handleScrap = () => {
-    if (isScrapped) unscrap();
-    else scrap();
-  };
 
   const handleSubmit = () => {
     // 지원하기
@@ -75,27 +50,7 @@ const HomeDetail = () => {
           <button onClick={() => navigate(-1)}>
             <img src={leftChevronIcon} alt='leftchevron icon' />
           </button>
-          {isScrapped ? (
-            <button
-              onClick={handleScrap}
-              className='rounded-xl border border-yellow-dark bg-yellow px-2 py-1 text-sm text-black'
-            >
-              <img src={scrapBlackIcon} alt='scrap icon' className='inline' />
-              취소
-            </button>
-          ) : (
-            <button
-              onClick={handleScrap}
-              className='rounded-xl border border-gray-400 px-2 py-1 text-sm text-gray-600'
-            >
-              <img
-                src={scrapGrayIcon}
-                alt='scrap icon'
-                className='mr-1 inline'
-              />
-              스크랩
-            </button>
-          )}
+          <ScrapButton recruitmentId={id} token={token} />
         </div>
         <Container data={data} isPending={isPending} isError={isError} />
       </div>
@@ -135,6 +90,84 @@ const Container = ({ data, isPending, isError }) => {
         <p className='whitespace-pre-line text-base'>{data.content}</p>
       </div>
     </>
+  );
+};
+
+const ScrapButton = ({ recruitmentId, token }) => {
+  const [isScrapped, setIsScrapped] = useState(false);
+
+  // 공고 스크랩 상태 불러오기
+  const { scrapped } = useQuery({
+    queryKey: ['recruitment', recruitmentId, 'scrap'],
+    queryFn: () =>
+      fetch(
+        `${import.meta.env.VITE_BASE_URL}/api/recruitments/${recruitmentId}/scrap`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      ).then((res) => res.json()),
+    onSuccess: () => setIsScrapped(scrapped),
+  });
+
+  // 해당 공고 스크랩하기
+  const { mutate: scrap } = useMutation({
+    mutationFn: () =>
+      fetch(
+        `${import.meta.env.VITE_BASE_URL}/api/recruitments/${recruitmentId}/scrap`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      ),
+    onSuccess: () => setIsScrapped(true),
+  });
+
+  // 해당 공고 스크랩 취소하기
+  // TODO: id를 scrapId로 수정
+  const { mutate: unscrap } = useMutation({
+    mutationFn: () =>
+      fetch(
+        `${import.meta.env.VITE_BASE_URL}/api/recruitments/${recruitmentId}/scrap`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      ),
+    onSuccess: () => setIsScrapped(false),
+  });
+
+  const handleScrap = () => {
+    if (isScrapped) unscrap();
+    else scrap();
+  };
+
+  return (
+    <button
+      onClick={handleScrap}
+      className={
+        isScrapped
+          ? 'rounded-xl border border-yellow-dark bg-yellow px-2 py-1 text-sm text-black'
+          : 'rounded-xl border border-gray-400 px-2 py-1 text-sm text-gray-600'
+      }
+    >
+      {isScrapped ? (
+        <>
+          <img src={scrapBlackIcon} alt='scrap icon' className='inline' />
+          취소
+        </>
+      ) : (
+        <>
+          <img src={scrapGrayIcon} alt='scrap icon' className='mr-1 inline' />
+          스크랩
+        </>
+      )}
+    </button>
   );
 };
 

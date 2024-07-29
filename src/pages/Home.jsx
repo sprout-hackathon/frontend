@@ -5,11 +5,16 @@ import useRegionStore from '../store/region';
 
 const Home = () => {
   const { region } = useRegionStore();
+  const token = localStorage.getItem('accessToken');
+
   const { data, isPending, isError } = useQuery({
     queryKey: ['recruitmentList', region],
     queryFn: () =>
       fetch(
-        `${import.meta.env.VITE_BASE_URL}/api/recruitments${region === '전체' ? '' : `?sido=${region}`}`
+        `${import.meta.env.VITE_BASE_URL}/api/recruitments?sido=${region}&page=0&size=1&sort=recruitmentId`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       ).then((res) => res.json()),
   });
   // TODO: 필요 시 무한스크롤 구현
@@ -33,8 +38,10 @@ const Home = () => {
 };
 
 const ListContainer = ({ data, isPending, isError }) => {
+  console.log(data);
   if (isPending) return <p className='p-5'>공고 목록을 불러오는 중이에요</p>;
   if (isError) return <p className='p-5'>공고 목록을 불러오는 데 실패했어요</p>;
+
   if (data.content.length === 0)
     return <p className='p-5'>해당 지역의 공고가 없어요</p>;
 

@@ -18,25 +18,29 @@ const queryClient = new QueryClient();
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/detail/:id' element={<HomeDetail />} />
-          <Route path='/chatlog' element={<ChatLog />} />
-          <Route path='/chatlog/detail/:id' element={<ChatLogDetail />} />
-          <Route path='/chatbot' element={<Chatbot />} />
-          <Route path='/mypage' element={<Mypage />} />
-          <Route path='/mypage/edit' element={<EditProfile />} />
-          <Route path='/mypage/apply' element={<ApplyList />} />
-          <Route path='/mypage/history' element={<History />} />
-          <Route path='/mypage/scrap' element={<Scrap />} />
-          <Route path='/signup' element={<Signup />} />
-        </Routes>
-        <BottomTab />
-      </BrowserRouter>
-    </QueryClientProvider>
+    <div className='h-dvh w-full bg-black'>
+      <div className='relative mx-auto h-dvh bg-white md:w-[375px]'>
+        <QueryClientProvider client={queryClient}>
+          <BrowserRouter>
+            <Routes>
+              <Route path='/' element={<Home />} />
+              <Route path='/login' element={<Login />} />
+              <Route path='/detail/:id' element={<HomeDetail />} />
+              <Route path='/chatlog' element={<ChatLog />} />
+              <Route path='/chatlog/detail/:id' element={<ChatLogDetail />} />
+              <Route path='/chatbot' element={<Chatbot />} />
+              <Route path='/mypage' element={<Mypage />} />
+              <Route path='/mypage/edit' element={<EditProfile />} />
+              <Route path='/mypage/apply' element={<ApplyList />} />
+              <Route path='/mypage/history' element={<History />} />
+              <Route path='/mypage/scrap' element={<Scrap />} />
+              <Route path='/signup' element={<Signup />} />
+            </Routes>
+            <BottomTab />
+          </BrowserRouter>
+        </QueryClientProvider>
+      </div>
+    </div>
   );
 }
 

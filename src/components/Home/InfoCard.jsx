@@ -9,12 +9,14 @@ const InfoCard = ({ data }) => {
   return (
     <li className='list-none rounded-2xl border bg-gray-50 p-4'>
       <Link to={`/detail/${data.recruitmentId}`}>
-        <div className='flex flex-row'>
-          <div>
-            <p className='mb-0.5 text-base font-bold'>{data.hospital.name}</p>
+        <div className='flex w-full flex-row justify-between'>
+          <div className='mr-3 shrink overflow-hidden'>
+            <p className='mb-0.5 truncate text-base font-bold'>
+              {data.hospital.name}
+            </p>
             <p className='truncate text-xs text-gray-400'>{address}</p>
           </div>
-          <img src={rightChevronIcon} alt='chevron icon' className='ml-auto' />
+          <img src={rightChevronIcon} alt='chevron icon' />
         </div>
         <hr className='my-2' />
         <p className='mb-1 text-sm'>

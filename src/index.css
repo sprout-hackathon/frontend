@@ -23,6 +23,10 @@
       'Segoe UI Symbol',
       sans-serif;
   }
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 @layer components {

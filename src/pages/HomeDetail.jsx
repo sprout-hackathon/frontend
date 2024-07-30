@@ -30,13 +30,13 @@ const HomeDetail = () => {
     <div className='relative h-dvh p-5 pb-0'>
       <div className='h-full overflow-y-auto pb-20'>
         <div className='mb-3 flex flex-row justify-between'>
-          <button onClick={() => navigate('/')}>
+          <button onClick={() => navigate(-1)}>
             <img src={leftChevronIcon} alt='leftchevron icon' />
           </button>
           {isScrapped ? (
             <button
               onClick={handleScrap}
-              className='border-yellow-dark rounded-xl border bg-yellow px-2 py-1 text-sm text-black'
+              className='rounded-xl border border-yellow-dark bg-yellow px-2 py-1 text-sm text-black'
             >
               <img src={scrapBlackIcon} alt='scrap icon' className='inline' />
               취소

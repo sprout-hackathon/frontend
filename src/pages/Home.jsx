@@ -3,7 +3,7 @@ import TagContainer from '../components/Home/TagContainer';
 
 const Home = () => {
   return (
-    <div className='-mb-20 h-dvh overflow-y-auto pb-20'>
+    <div className='-mb-20 h-dvh overflow-y-auto pb-20 md:aspect-[375/814] lg:aspect-[375/814]'>
       <h1 className='mb-2 whitespace-pre-line px-5 pt-5 text-3xl font-bold'>
         반가워요,
         <br />

@@ -2,6 +2,9 @@
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
+    screens: {
+      md: '480px',
+    },
     colors: {
       transparent: 'transparent',
       current: 'currentColor',

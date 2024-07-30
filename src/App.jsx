@@ -16,7 +16,7 @@ import Signup from './pages/Signup';
 function App() {
   return (
     <div className='h-dvh w-full bg-black'>
-      <div className='relative mx-auto h-dvh bg-white md:aspect-[375/814] lg:aspect-[375/814]'>
+      <div className='relative mx-auto h-dvh bg-white md:w-[375px]'>
         <BrowserRouter>
           <Routes>
             <Route path='/' element={<Home />} />

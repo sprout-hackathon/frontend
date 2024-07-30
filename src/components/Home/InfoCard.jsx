@@ -9,14 +9,16 @@ const InfoCard = () => {
   return (
     <li className='list-none rounded-2xl border bg-gray-50 p-4'>
       <Link to={`/detail/${id}`}>
-        <div className='flex flex-row'>
-          <div>
-            <p className='mb-0.5 text-base font-bold'>봄봄재가노인복지센터</p>
+        <div className='flex w-full flex-row justify-between'>
+          <div className='mr-3 shrink overflow-hidden'>
+            <p className='mb-0.5 truncate text-base font-bold'>
+              봄봄재가노인복지센터
+            </p>
             <p className='truncate text-xs text-gray-400'>
               전북특별자치도 완주군 봉동읍 완주산단7로 61, 머시기머시기
             </p>
           </div>
-          <img src={rightChevronIcon} alt='chevron icon' className='mx-5' />
+          <img src={rightChevronIcon} alt='chevron icon' />
         </div>
         <hr className='my-2' />
         <p className='mb-1 text-sm'>

@@ -6,6 +6,14 @@ import Suggestion from '../components/chatbot/Suggestion';
 import { useRef, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import UserMessage from '../components/chatbot/UserMessage';
+import showIcon from '../assets/icons/chat-show.svg';
+import hideIcon from '../assets/icons/chat-hide.svg';
+import GridButton from '../components/chatbot/GridButton';
+import documentIcon from '../assets/icons/chat-document.svg';
+import noteIcon from '../assets/icons/chat-note.svg';
+import summaryIcon from '../assets/icons/chat-summary.svg';
+import mindmapIcon from '../assets/icons/chat-mindmap.svg';
+import questionIcon from '../assets/icons/chat-question.svg';
 
 const firstMessage = `반가워요! 저는 사용자님이 한국에서 생활하실 때 필요한 자격증에 대한 정보를 제공하는 자격증 도우미 챗봇이에요.
 
@@ -25,6 +33,7 @@ const ChatbotInit = () => {
     show: true,
     list: mostAskedQuestion,
   });
+  const [showMore, setShowMore] = useState(false);
   const chatRoomId = useRef();
   const navigate = useNavigate();
 
@@ -105,17 +114,48 @@ const ChatbotInit = () => {
             />
           ))}
       </div>
-      <div className='flex flex-row items-start border-t p-3'>
+      <div className='flex flex-row items-start border-y p-3'>
+        <button
+          onClick={() => setShowMore((prev) => !prev)}
+          className='ml-1 mt-2 flex h-7 w-7'
+        >
+          {showMore ? (
+            <img src={hideIcon} alt='more icon' />
+          ) : (
+            <img src={showIcon} alt='hide icon' />
+          )}
+        </button>
         <input
           type='text'
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
-          className='mb-4 grow rounded-lg border bg-gray-100 px-3 py-2 text-sm focus:mb-0 focus:outline-none'
+          className='grow rounded-lg border bg-gray-100 px-3 py-2 text-sm focus:outline-none'
         />
         <button onClick={() => handleSendMessage(inputText)}>
           <img src={sendIcon} alt='send icon' className='ml-2 mt-1' />
         </button>
       </div>
+      {showMore && (
+        <div className='grid h-64 grid-cols-3 grid-rows-2 gap-4 p-5'>
+          <GridButton
+            text='학습자료 및 PDF 파일
+           업로드'
+          />
+          <GridButton
+            text='챗봇과
+          문제 풀기'
+            icon={documentIcon}
+          />
+          <GridButton text='나의 노트' icon={noteIcon} />
+          <GridButton
+            text='대화 내용
+          전체 요약'
+            icon={summaryIcon}
+          />
+          <GridButton text='마인드맵 만들기' icon={mindmapIcon} />
+          <GridButton text='AI 캐릭터에게 질문하기' icon={questionIcon} />
+        </div>
+      )}
     </div>
   );
 };

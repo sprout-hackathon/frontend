@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import useProfileStore from "../store/useProfileStore";
 
-const InitialSet = () => {
+
+const InitialSet3 = () => {
     const navigator = useNavigate();
-    
+
     const {
         id,
         password,
@@ -29,41 +30,42 @@ const InitialSet = () => {
         setHospitalId
         } = useProfileStore();
 
-      console.log(id, password, nickname, nationCode,languageCode, proficiency)
+
+    console.log(nickname, nationCode,languageCode, proficiency)
 
     return(
         <div className='-mb-20 h-dvh overflow-y-auto grid justify-items-center'>
             <div className="border-2 h-[80px] w-screen gird content-center">
                 <div className="text-3xl font-extralight ml-6 text-gray-500"
-                onClick={()=>navigator('/signup')}>
+                onClick={()=>navigator('/signup/initial-nation')}>
                     &lt;
                 </div>
             </div>
-            <div className="w-screen pl-6">
-                <h1 className='mt-24 text-xl font-bold text-black'>
-                    반가워요,<br/> 서비스에 오신 걸 환영해요!
-                </h1>
-            </div>
-            <h1 className='mt-5 mb-[29px] text-sm font-normal text-gray-500'>
-                    닉네임을 입력해주세요.
+            <h1 className="text-xl font-bold mb-2">
+                한국어 능숙도 정도를 체크해 주세요.
             </h1>
-
-            <div className="w-screen pl-9 pb-2">
-                <h1 className="font-bold">
-                    닉네임
-                </h1>
+            <p className="text-sm text-blue">
+                능숙한 정도에 따라 1~5점 중 체크해 주세요.
+            </p>
+    
+            <div className="flex justify-between items-center mb-6">
+                <span>매우 <br/> 서툴러요</span>
+                <div className="flex space-x-2 px-5">
+                {[1, 2, 3, 4, 5].map((level) => (
+                    <button
+                    key={level}
+                    className={`w-8 h-8 rounded-full ${
+                        proficiency === level ? 'bg-blue' : 'bg-gray-300'
+                    }`}
+                    onClick={() => setProficiency(level)}
+                    ></button>
+                ))}
+                </div>
+                <span>매우 <br/>능숙해요</span>
             </div>
-
-            <input
-                type='nickname'
-                className='w-[324px] h-[49px] grow rounded-lg border bg-gray-100 px-3 py-2 text-sm focus:outline-none'
-                placeholder="닉네임을 입력해주세요"
-                onChange={(e) => setNickname(e.target.value)}
-                value={nickname}
-                required
-            />
-            <button className="mt-48 mb-8" onClick={()=>{
-                navigator('/signup/initial-nation')
+    
+            <button className=" mb-8" onClick={()=>{
+                navigator('/signup/initial-certification')
                 }}>
                 <div className='w-[324px] rounded-lg h-[49px] grid content-center font-semibold bg-blue text-white hover:bg-[#3b5998]/90'>다음</div>
             </button>
@@ -71,4 +73,4 @@ const InitialSet = () => {
     )
 }
 
-export default InitialSet
+export default InitialSet3

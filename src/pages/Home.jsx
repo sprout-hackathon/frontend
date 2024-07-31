@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import InfoCard from '../components/Home/InfoCard';
 import TagContainer from '../components/Home/TagContainer';
 import useRegionStore from '../store/region';
+import axios from 'axios';
 
 const Home = () => {
   const { region } = useRegionStore();
@@ -10,12 +11,12 @@ const Home = () => {
   const { data, isPending, isError } = useQuery({
     queryKey: ['recruitmentList', region],
     queryFn: () =>
-      fetch(
-        `${import.meta.env.VITE_BASE_URL}/api/recruitments?sido=${region}&page=0&size=1&sort=recruitmentId`,
-        {
+      axios
+        .get(`${import.meta.env.VITE_BASE_URL}/api/recruitments`, {
+          params: { sido: region, page: 0, size: 10, sort: 'recruitmentId' },
           headers: { Authorization: `Bearer ${token}` },
-        }
-      ).then((res) => res.json()),
+        })
+        .then((res) => res.data),
   });
   // TODO: 필요 시 무한스크롤 구현
 
@@ -32,12 +33,12 @@ const Home = () => {
       <hr />
       <h3 className='px-5 py-4 text-2xl font-bold'>내 근처 찾아보기</h3>
       <TagContainer />
-      <ListContainer data={data} isPending={isPending} isError={isError} />
+      <ListContainer isPending={isPending} isError={isError} data={data} />
     </div>
   );
 };
 
-const ListContainer = ({ data, isPending, isError }) => {
+const ListContainer = ({ isPending, isError, data }) => {
   if (isPending) return <p className='p-5'>공고 목록을 불러오는 중이에요</p>;
   if (isError) return <p className='p-5'>공고 목록을 불러오는 데 실패했어요</p>;
 

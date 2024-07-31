@@ -8,37 +8,28 @@ import ModalButton from '../components/common/Modal/ModalButton';
 import scrapGrayIcon from '../assets/icons/scrap-gray.svg';
 import scrapBlackIcon from '../assets/icons/scrap-black.svg';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import axios from 'axios';
+import {
+  deleteScrapRecruitment,
+  getRecruitmentDetail,
+  getRecruitmentScrap,
+  postScrapRecruitment,
+} from '../api/recruitments';
+import { postApplication } from '../api/applications';
 
 const HomeDetail = () => {
   const { id } = useParams();
-  const token = localStorage.getItem('accessToken');
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
   // 공고 내용 불러오기
   const { data, isPending, isError } = useQuery({
     queryKey: ['recruitment', id],
-    queryFn: axios
-      .get(`${import.meta.env.VITE_BASE_URL}/api/recruitments/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => res.data),
+    queryFn: () => getRecruitmentDetail(id),
   });
 
   // 해당 공고에 지원하기
   const { mutate: apply } = useMutation({
-    mutationFn: () =>
-      axios.post(
-        '/api/applications',
-        { recruitmentId: id },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        }
-      ),
+    mutationFn: () => postApplication(id),
     onSuccess: () => setIsOpen(true),
   });
 
@@ -49,7 +40,7 @@ const HomeDetail = () => {
           <button onClick={() => navigate(-1)}>
             <img src={leftChevronIcon} alt='leftchevron icon' />
           </button>
-          <ScrapButton recruitmentId={id} token={token} />
+          <ScrapButton recruitmentId={id} />
         </div>
         <Container data={data} isPending={isPending} isError={isError} />
       </div>
@@ -92,54 +83,25 @@ const Container = ({ data, isPending, isError }) => {
   );
 };
 
-const ScrapButton = ({ recruitmentId, token }) => {
+const ScrapButton = ({ recruitmentId }) => {
   const [isScrapped, setIsScrapped] = useState(false);
 
   // 공고 스크랩 상태 불러오기
   const { scrapped } = useQuery({
     queryKey: ['recruitment', recruitmentId, 'scrap'],
-    queryFn: () =>
-      axios
-        .get(
-          `${import.meta.env.VITE_BASE_URL}/api/recruitments/${recruitmentId}/scrap`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        )
-        .then((res) => res.data),
+    queryFn: () => getRecruitmentScrap(recruitmentId),
     onSuccess: () => setIsScrapped(scrapped),
   });
 
   // 해당 공고 스크랩하기
   const { mutate: scrap } = useMutation({
-    mutationFn: () =>
-      axios.post(
-        `${import.meta.env.VITE_BASE_URL}/api/recruitments/${recruitmentId}/scrap`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        }
-      ),
+    mutationFn: () => postScrapRecruitment(recruitmentId),
     onSuccess: () => setIsScrapped(true),
   });
 
   // 해당 공고 스크랩 취소하기
-  // TODO: id를 scrapId로 수정
   const { mutate: unscrap } = useMutation({
-    mutationFn: () =>
-      axios.post(
-        `${import.meta.env.VITE_BASE_URL}/api/recruitments/${recruitmentId}/scrap`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        }
-      ),
+    mutationFn: () => deleteScrapRecruitment(recruitmentId),
     onSuccess: () => setIsScrapped(false),
   });
 

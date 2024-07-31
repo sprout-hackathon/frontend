@@ -2,21 +2,14 @@ import { useQuery } from '@tanstack/react-query';
 import InfoCard from '../components/Home/InfoCard';
 import TagContainer from '../components/Home/TagContainer';
 import useRegionStore from '../store/region';
-import axios from 'axios';
+import { getRecruitmentList } from '../api/recruitments';
 
 const Home = () => {
   const { region } = useRegionStore();
-  const token = localStorage.getItem('accessToken');
 
   const { data, isPending, isError } = useQuery({
     queryKey: ['recruitmentList', region],
-    queryFn: () =>
-      axios
-        .get(`${import.meta.env.VITE_BASE_URL}/api/recruitments`, {
-          params: { sido: region, page: 0, size: 10, sort: 'recruitmentId' },
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then((res) => res.data),
+    queryFn: () => getRecruitmentList(region, 0, 100),
   });
   // TODO: 필요 시 무한스크롤 구현
 

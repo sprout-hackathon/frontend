@@ -1,56 +1,40 @@
-import React from "react"
+import React, { useState } from "react"
 import { useNavigate } from "react-router-dom";
 import useProfileStore from "../store/useProfileStore";
 import Dropdown from "../components/initialset/Dropdown";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+const keyword = "";  // 검색할 키워드
+
 
 
 const InitialSet6 = () => {
     const navigator = useNavigate();
     const queryClient = useQueryClient();
-    const accessToken = "abcd"
+    const [data, setData] = useState([]);
 
-    // const fetchHospitals = async (keyword) => {
-    //     const response = await axios.get('http://3.107.17.104:8080/api/hospitals', {
-    //       headers: {
-    //         Accept: '*/*',  // 서버에서 모든 형식을 허용하도록 설정
-    //       },
-    //       params: {
-    //         keyword: keyword,  // 한글 키워드를 적절히 URL 인코딩
-    //       },
-    //     });
-    //     console.log(response.data)
-    //     return response.data;
-    //   };
-    // const keyword = "병원";  // 검색할 키워드
+    const fetchHospitals = async (keyword) => {
+        const response = await axios.get(`${BASE_URL}/api/hospitals`, {
+          headers: {
+            Accept: '*/*',  // 서버에서 모든 형식을 허용하도록 설정
+          },
+          params: {
+            keyword: keyword,  // 한글 키워드를 적절히 URL 인코딩
+          },
+        });
+        setData(response.data)
+      };
     
-    // const { data, isError, isLoading, error } = useQuery({
-    //     queryKey: ['hospitals', keyword],
-    //     queryFn: async() => fetchHospitals(keyword),  // queryFn
-    //     });
-    
-    // if (isLoading) {
-    //     return <div>Loading...</div>;
-    // }
-     
-    // if (isError) {
-    //     return <div>Error: {error.message}</div>;
-    // }
+      const {isError, isLoading, error } = useQuery({
+        queryKey: ['hospitals', keyword],
+        queryFn: async() => fetchHospitals(keyword),  // queryFn
+        });
 
-
-    const textOptions = [
-        "서울 요양",
-        "부산 요양",
-        "경희 요양",
-        "연세 요양",
-        "경기 요양"
-    ]
+    const textOptions = data.map((e) => e.name)
 
     
-    
-
     const {
     id,
     password,

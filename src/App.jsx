@@ -5,6 +5,7 @@ import HomeDetail from './pages/HomeDetail';
 import Chatbot from './pages/Chatbot';
 import ChatLog from './pages/ChatLog';
 import ChatLogDetail from './pages/ChatLogDetail';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Mypage from './pages/Mypage';
 import EditProfile from './pages/EditProfile';
 import Login from './pages/Login';
@@ -19,14 +20,13 @@ import InitialSet4 from './pages/InitialSet4';
 import InitialSet5 from './pages/InitialSet5';
 import InitialSet6 from './pages/InitialSet6';
 import Final from './pages/Final';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-const queryClient = new QueryClient
+const queryClient = new QueryClient();
 
 function App() {
   return (
     <div className='h-dvh w-full bg-black'>
-      <div className='relative mx-auto h-dvh bg-white md:aspect-[375/814] lg:aspect-[375/814]'>
+      <div className='relative mx-auto h-dvh bg-white md:w-[375px]'>
         <QueryClientProvider client={queryClient}>
           <BrowserRouter>
             <Routes>

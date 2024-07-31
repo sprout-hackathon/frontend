@@ -1,11 +1,12 @@
 import editIcon from '../../assets/icons/edit-gray.svg';
 import deleteIcon from '../../assets/icons/delete-gray.svg';
+import { Link } from 'react-router-dom';
 
 const HistoryCard = ({ data, editable = false }) => {
   let id = 0;
 
-  const handleEdit = () => {
-    // 별도의 수정 페이지로 넘어가기?
+  const handleDelete = () => {
+    // 삭제 api 호출 후 화면 새로고침?
   };
 
   return (
@@ -23,10 +24,10 @@ const HistoryCard = ({ data, editable = false }) => {
         </span>
         {editable && (
           <>
-            <button className='ml-auto'>
+            <Link to={`edit/${id}`} className='ml-auto'>
               <img src={editIcon} alt='edit icon' />
-            </button>
-            <button className='ml-3'>
+            </Link>
+            <button onClick={handleDelete} className='ml-3'>
               <img src={deleteIcon} alt='delete icon' />
             </button>
           </>

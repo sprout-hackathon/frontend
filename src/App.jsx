@@ -12,6 +12,7 @@ import ApplyList from './pages/ApplyList';
 import History from './pages/History';
 import Scrap from './pages/Scrap';
 import Signup from './pages/Signup';
+import EditHistory from './pages/EditHistory';
 
 function App() {
   return (
@@ -29,6 +30,8 @@ function App() {
             <Route path='/mypage/edit' element={<EditProfile />} />
             <Route path='/mypage/apply' element={<ApplyList />} />
             <Route path='/mypage/history' element={<History />} />
+            <Route path='/mypage/history/add' element={<EditHistory />} />
+            <Route path='/mypage/history/edit/:id' element={<EditHistory />} />
             <Route path='/mypage/scrap' element={<Scrap />} />
             <Route path='/signup' element={<Signup />} />
           </Routes>

@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import leftChevronIcon from '../assets/icons/left-chevron.svg';
 import addIcon from '../assets/icons/add-gray.svg';
 import { useState } from 'react';
@@ -32,9 +32,9 @@ const History = () => {
         )}
       </div>
       {isEditing && (
-        <button className='mb-3 ml-auto mr-5 mt-2'>
+        <Link to='add' className='mb-3 ml-auto mr-5 mt-2'>
           <img src={addIcon} alt='add icon' />
-        </button>
+        </Link>
       )}
       <ul className='flex flex-col gap-4'>
         {dataList.map((data, index) => (

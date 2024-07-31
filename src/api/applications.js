@@ -32,4 +32,19 @@ const getApplicationList = async () => {
   return res?.data;
 };
 
-export { postApplication, getApplicationList };
+const editApplicationState = async (applicationId, state) => {
+  const url = `${BASE_URL}/api/applications/${applicationId}`;
+  const token = await getAccessToken();
+
+  const res = await axios.patch(
+    url,
+    { state: state },
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+
+  return res?.data;
+};
+
+export { postApplication, getApplicationList, editApplicationState };

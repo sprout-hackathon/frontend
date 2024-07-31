@@ -5,16 +5,27 @@ import { useState } from 'react';
 import Modal from '../components/common/Modal/Modal';
 import ModalText from '../components/common/Modal/ModalText';
 import ModalButton from '../components/common/Modal/ModalButton';
-import { useQuery } from '@tanstack/react-query';
-import { getApplicationList } from '../api/applications';
-
-const dataList = [0, 1, 2, 3, 4];
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { editApplicationState, getApplicationList } from '../api/applications';
 
 const ApplyList = () => {
   const [isEditing, setEditing] = useState(false);
-  const [selectedIndex, setSelectedIndex] = useState(-1);
-  let showModal = 0 <= selectedIndex && selectedIndex < dataList.length;
+  const [selectedId, setSelectedId] = useState(null);
+  let showModal = Boolean(selectedId);
   const navigate = useNavigate();
+
+  const { mutate } = useMutation({
+    mutationFn: (state) => editApplicationState(selectedId, state),
+    onSuccess: () => navigate(0),
+  });
+
+  const handleEdit = () => {
+    setEditing((editing) => !editing);
+  };
+
+  const handleModalClose = () => {
+    setSelectedId(null);
+  };
 
   const ListContainer = () => {
     const { data, isPending, isError } = useQuery({
@@ -27,28 +38,20 @@ const ApplyList = () => {
 
     return (
       <ul className='flex flex-col gap-4'>
-        {data.map((item, index) =>
-          index === selectedIndex ? (
-            <ApplyCard key={index} data={item} selected />
+        {data.map((item) =>
+          item.applicationId === selectedId ? (
+            <ApplyCard key={item.applicationId} data={item} selected />
           ) : (
             <ApplyCard
-              key={index}
+              key={item.applicationId}
               data={item}
               disabled={!isEditing}
-              onSelect={() => setSelectedIndex(index)}
+              onSelect={() => setSelectedId(item.applicationId)}
             />
           )
         )}
       </ul>
     );
-  };
-
-  const handleEdit = () => {
-    setEditing((editing) => !editing);
-  };
-
-  const handleModalClose = () => {
-    setSelectedIndex(-1);
   };
 
   return (
@@ -73,9 +76,10 @@ const ApplyList = () => {
         {showModal && (
           <Modal onClickClose={handleModalClose}>
             <ModalText text='지원 현황을 수정해주세요' />
-            <ModalButton text='지원중' />
-            <ModalButton text='합격' />
-            <ModalButton text='탈락' />
+            <ModalButton text='접수완료' onClick={() => mutate('접수완료')} />
+            <ModalButton text='심사중' onClick={() => mutate('심사중')} />
+            <ModalButton text='합격' onClick={() => mutate('합격')} />
+            <ModalButton text='불합격' onClick={() => mutate('불합격')} />
           </Modal>
         )}
       </div>

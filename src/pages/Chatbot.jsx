@@ -84,7 +84,7 @@ const ChatbotInit = () => {
         <h1 className='mx-auto text-lg font-semibold'>챗봇과 대화하기</h1>
       </div>
       <div className='flex grow flex-col gap-3 overflow-y-auto p-4'>
-        <ChatbotMessage text={firstMessage} />
+        <ChatbotMessage key={0} text={firstMessage} />
         {messageList.map((msg) =>
           msg.isBot ? (
             <ChatbotMessage key={msg.content} text={msg.content} />

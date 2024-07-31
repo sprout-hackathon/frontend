@@ -3,9 +3,9 @@ import React from "react";
 const Login = () => {
 
 return(
-        <div className='-mb-20 overflow-y-auto pb-20 grid justify-items-center'>
+        <div className='-mb-20 pb-20 grid justify-items-center'>
             <h1 className='mt-[213px] mb-[29px] text-3xl font-black text-blue'>
-                서비스명
+                유니케어 Uni-Care
             </h1>
             <h5 className="w-[324px] text-xl font-extrabold">ID</h5>
             <input

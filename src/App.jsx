@@ -13,6 +13,13 @@ import ApplyList from './pages/ApplyList';
 import History from './pages/History';
 import Scrap from './pages/Scrap';
 import Signup from './pages/Signup';
+import InitialSet from './pages/InitialSet';
+import InitialSet2 from './pages/InitialSet2';
+import InitialSet3 from './pages/InitialSet3';
+import InitialSet4 from './pages/InitialSet4';
+import InitialSet5 from './pages/InitialSet5';
+import InitialSet6 from './pages/InitialSet6';
+import Final from './pages/Final';
 
 const queryClient = new QueryClient();
 
@@ -35,6 +42,13 @@ function App() {
               <Route path='/mypage/history' element={<History />} />
               <Route path='/mypage/scrap' element={<Scrap />} />
               <Route path='/signup' element={<Signup />} />
+              <Route path='/signup/initial-nickname' element={<InitialSet />} />
+              <Route path='/signup/initial-nation' element={<InitialSet2 />} />
+              <Route path='/signup/initial-prof' element={<InitialSet3 />} />
+              <Route path='/signup/initial-certification' element={<InitialSet4/>} />
+              <Route path='/signup/initial-certification-number' element={<InitialSet5/>} />
+              <Route path='/signup/initial-workhistory' element={<InitialSet6/>} />
+              <Route path='/complete-page' element={<Final/> } />
             </Routes>
             <BottomTab />
           </BrowserRouter>

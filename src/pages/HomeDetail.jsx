@@ -7,32 +7,31 @@ import ModalText from '../components/common/Modal/ModalText';
 import ModalButton from '../components/common/Modal/ModalButton';
 import scrapGrayIcon from '../assets/icons/scrap-gray.svg';
 import scrapBlackIcon from '../assets/icons/scrap-black.svg';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import {
+  deleteScrapRecruitment,
+  getRecruitmentDetail,
+  getRecruitmentScrap,
+  postScrapRecruitment,
+} from '../api/recruitments';
+import { postApplication } from '../api/applications';
 
 const HomeDetail = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
-  const [isScrapped, setIsScrapped] = useState(false);
+  const navigate = useNavigate();
+
+  // 공고 내용 불러오기
   const { data, isPending, isError } = useQuery({
     queryKey: ['recruitment', id],
-    queryFn: () =>
-      fetch(`${import.meta.env.VITE_BASE_URL}/api/recruitments/${id}`).then(
-        (res) => res.json()
-      ),
+    queryFn: () => getRecruitmentDetail(id),
   });
 
-  // TODO: id로 실제 데이터 fetch해서 보여주기
-
-  const handleScrap = () => {
-    setIsScrapped((prev) => !prev);
-  };
-
-  const handleSubmit = () => {
-    // 지원하기
-    // 지원 성공 여부에 따라 모달 표시
-    setIsOpen(true);
-  };
+  // 해당 공고에 지원하기
+  const { mutate: apply } = useMutation({
+    mutationFn: () => postApplication(id),
+    onSuccess: () => setIsOpen(true),
+  });
 
   return (
     <div className='relative h-dvh p-5 pb-0'>
@@ -41,32 +40,12 @@ const HomeDetail = () => {
           <button onClick={() => navigate(-1)}>
             <img src={leftChevronIcon} alt='leftchevron icon' />
           </button>
-          {isScrapped ? (
-            <button
-              onClick={handleScrap}
-              className='rounded-xl border border-yellow-dark bg-yellow px-2 py-1 text-sm text-black'
-            >
-              <img src={scrapBlackIcon} alt='scrap icon' className='inline' />
-              취소
-            </button>
-          ) : (
-            <button
-              onClick={handleScrap}
-              className='rounded-xl border border-gray-400 px-2 py-1 text-sm text-gray-600'
-            >
-              <img
-                src={scrapGrayIcon}
-                alt='scrap icon'
-                className='mr-1 inline'
-              />
-              스크랩
-            </button>
-          )}
+          <ScrapButton recruitmentId={id} />
         </div>
         <Container data={data} isPending={isPending} isError={isError} />
       </div>
       <button
-        onClick={handleSubmit}
+        onClick={apply}
         className='absolute bottom-5 left-1/2 h-12 w-11/12 -translate-x-1/2 transform rounded-xl bg-blue text-lg text-white'
       >
         지원하기
@@ -80,7 +59,7 @@ const HomeDetail = () => {
           <ModalButton text='홈으로' onClick={() => navigate('/')} />
           <ModalButton
             text='나의 지원 내역 확인하기'
-            onClick={() => navigate('/mypage')}
+            onClick={() => navigate('/mypage/apply')}
           />
           {/* TODO: 지원내역 path 수정 */}
         </Modal>
@@ -97,12 +76,61 @@ const Container = ({ data, isPending, isError }) => {
     <>
       <InfoCard data={data} />
       <div className='mt-4 rounded-2xl border p-4'>
-        <h4 className='mb-4 text-lg font-bold'>
-          봄봄재가노인복지센터에서 외국인 요양보호사를 모집합니다!
-        </h4>
+        <h4 className='mb-4 text-lg font-bold'>{data.title}</h4>
         <p className='whitespace-pre-line text-base'>{data.content}</p>
       </div>
     </>
+  );
+};
+
+const ScrapButton = ({ recruitmentId }) => {
+  const [isScrapped, setIsScrapped] = useState(false);
+
+  // 공고 스크랩 상태 불러오기
+  const { scrapped } = useQuery({
+    queryKey: ['recruitment', recruitmentId, 'scrap'],
+    queryFn: () => getRecruitmentScrap(recruitmentId),
+    onSuccess: () => setIsScrapped(scrapped),
+  });
+
+  // 해당 공고 스크랩하기
+  const { mutate: scrap } = useMutation({
+    mutationFn: () => postScrapRecruitment(recruitmentId),
+    onSuccess: () => setIsScrapped(true),
+  });
+
+  // 해당 공고 스크랩 취소하기
+  const { mutate: unscrap } = useMutation({
+    mutationFn: () => deleteScrapRecruitment(recruitmentId),
+    onSuccess: () => setIsScrapped(false),
+  });
+
+  const handleScrap = () => {
+    if (isScrapped) unscrap();
+    else scrap();
+  };
+
+  return (
+    <button
+      onClick={handleScrap}
+      className={
+        isScrapped
+          ? 'rounded-xl border border-yellow-dark bg-yellow px-2 py-1 text-sm text-black'
+          : 'rounded-xl border border-gray-400 px-2 py-1 text-sm text-gray-600'
+      }
+    >
+      {isScrapped ? (
+        <>
+          <img src={scrapBlackIcon} alt='scrap icon' className='inline' />
+          취소
+        </>
+      ) : (
+        <>
+          <img src={scrapGrayIcon} alt='scrap icon' className='mr-1 inline' />
+          스크랩
+        </>
+      )}
+    </button>
   );
 };
 

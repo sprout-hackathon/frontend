@@ -10,6 +10,7 @@ const Home = () => {
   const { data, isPending, isError } = useQuery({
     queryKey: ['recruitmentList', region],
     queryFn: () => getRecruitmentList(region, 0, 100),
+
   });
   // TODO: 필요 시 무한스크롤 구현
 

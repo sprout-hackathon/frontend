@@ -16,7 +16,7 @@ const InfoCard = ({ data }) => {
             </p>
             <p className='truncate text-xs text-gray-400'>{address}</p>
           </div>
-          <img src={rightChevronIcon} alt='chevron icon' />
+          <img src={rightChevronIcon} alt='chevron icon' className='ml-auto' />
         </div>
         <hr className='my-2' />
         <p className='mb-1 text-sm'>

@@ -1,20 +1,44 @@
 import { useNavigate } from 'react-router-dom';
 import leftChevronIcon from '../assets/icons/left-chevron.svg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { editUserInfo, getUserInfo } from '../api/user';
+import { useMutation } from '@tanstack/react-query';
 
 const EditProfile = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
-  const [career, setCareer] = useState('요양보호사');
-  const [period, setPeriod] = useState('');
+  const [career, setCareer] = useState('');
   const [nation, setNation] = useState('');
   const [language, setLanguage] = useState('');
   const [level, setLevel] = useState(0);
 
-  const handleSubmit = () => {
-    // 서버에 데이터 전송 후 뒤로가기
-    navigate(-1);
-  };
+  useEffect(() => {
+    const initForm = async () => {
+      try {
+        const {
+          nickname,
+          nationCode,
+          languageCode,
+          proficiency,
+          totalWorkYear,
+          totalWorkMonth,
+        } = await getUserInfo();
+        setUsername(nickname);
+        setCareer(`${totalWorkYear}년 ${totalWorkMonth}개월`);
+        setNation(nationCode);
+        setLanguage(languageCode);
+        setLevel(proficiency);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    initForm();
+  }, []);
+
+  const { mutate: patchUser } = useMutation({
+    mutationFn: () => editUserInfo(username, nation, language, level),
+    onSuccess: () => navigate(-1),
+  });
 
   return (
     <div className='flex h-dvh flex-col overflow-y-auto pb-5'>
@@ -23,7 +47,7 @@ const EditProfile = () => {
           <img src={leftChevronIcon} alt='back icon' />
         </button>
         <h1 className='mx-auto text-lg font-semibold'>내 프로필 편집하기</h1>
-        <button onClick={handleSubmit} className='btn-gray text-xs'>
+        <button onClick={patchUser} className='btn-gray text-xs'>
           완료
         </button>
       </div>
@@ -33,27 +57,12 @@ const EditProfile = () => {
         onChange={(e) => setUsername(e.target.value)}
         className='profile-input mx-5'
       />
-      <h2 className='profile-heading'>아이디</h2>
-      <input className='profile-input mx-5' />
       <h2 className='profile-heading'>경력</h2>
-      <div className='mx-5 flex flex-row gap-4'>
-        <select
-          value={career}
-          onChange={(e) => setCareer(e.target.value)}
-          className='profile-input grow'
-        >
-          <option className='text-base'>요양보호사</option>
-        </select>
-        <select
-          value={period}
-          onChange={(e) => setPeriod(e.target.value)}
-          className='profile-input grow'
-        >
-          <option>~6개월</option>
-          <option>1년</option>
-          <option>2년</option>
-        </select>
-      </div>
+      <input
+        value={career}
+        onChange={(e) => setCareer(e.target.value)}
+        className='profile-input mx-5'
+      />
       <h2 className='profile-heading'>국가 이름</h2>
       <input
         value={nation}

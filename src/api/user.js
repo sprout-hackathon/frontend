@@ -16,4 +16,34 @@ const getUserInfo = async () => {
   return res?.data;
 };
 
-export { getUserInfo };
+const editUserInfo = async (
+  nickname,
+  nationCode,
+  languageCode,
+  proficiency
+) => {
+  const url = `${BASE_URL}/api/users`;
+  const token = await getAccessToken();
+
+  const res = await axios.patch(
+    url,
+    {
+      nickname: nickname,
+      nationCode: nationCode,
+      languageCode: languageCode,
+      proficiency: proficiency,
+      hasCertification: true,
+      certificationCode: 'cert123',
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    }
+  );
+
+  return res?.data;
+};
+
+export { getUserInfo, editUserInfo };

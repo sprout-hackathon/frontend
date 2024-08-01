@@ -1,15 +1,12 @@
 import { Link } from 'react-router-dom';
 
-const ChatlogCard = () => {
+const ChatlogCard = ({ data }) => {
   return (
     <li className='rounded-2xl border p-4'>
-      <Link to='/chatlog/detail/0'>
-        <p className='mb-1 text-base font-semibold'>
-          외국인 요양보호사 자격증의 필요 조건이 뭐야?
-        </p>
-        <p className='text-sm leading-4 text-gray-400'>
-          외국인 요양보호사 자격증 취득을 위해서는 다음과 같은 조건이
-          필요합니다:
+      <Link to={`/chatlog/detail/${data.chatRoomId}`}>
+        <p className='mb-1 text-base font-semibold'>{data.title}</p>
+        <p className='h-12 overflow-hidden truncate whitespace-pre-wrap text-sm leading-4 text-gray-400'>
+          {data.content}
         </p>
       </Link>
     </li>

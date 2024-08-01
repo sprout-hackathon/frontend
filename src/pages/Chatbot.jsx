@@ -17,6 +17,7 @@ import questionIcon from '../assets/icons/chat-question.svg';
 import Modal from '../components/common/Modal/Modal';
 import ModalText from '../components/common/Modal/ModalText';
 import ModalButton from '../components/common/Modal/ModalButton';
+import { postCreateChatRoom, postSendMessage } from '../api/chats';
 
 const firstMessage = `반가워요! 저는 사용자님이 한국에서 생활하실 때 필요한 자격증에 대한 정보를 제공하는 자격증 도우미 챗봇이에요.
 
@@ -41,54 +42,38 @@ const ChatbotInit = () => {
   const chatRoomId = useRef();
   const navigate = useNavigate();
 
-  const { mutate: createChatroom } = useMutation({
-    mutationFn: (title) =>
-      fetch(`${import.meta.env.VITE_BASE_URL}/api/chats/rooms`, {
-        method: 'POST',
-        body: JSON.stringify({ title: title }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }).then((res) => res.json()),
+  const { mutate: createChatroom, createIsPending } = useMutation({
+    mutationFn: (title) => postCreateChatRoom(title),
     onSuccess: (data) => {
       chatRoomId.current = data.chatRoomId;
       setMessageList((list) => [
         ...list,
-        { content: data.content, isBot: data.isBot },
+        { content: data.content, isBot: data.bot },
       ]);
-      setSuggestion({ show: true, list: data.recommendedQuestions });
+      setSuggestion((sug) => ({ ...sug, show: true }));
     },
-    onError: (error) => console.log(error),
+    onError: (err) => console.log(err),
   });
 
-  const { mutate: sendMessage } = useMutation({
-    mutationFn: (message) =>
-      fetch(`${import.meta.env.VITE_BASE_URL}/api/chats/messages`, {
-        method: 'POST',
-        body: JSON.stringify({
-          content: message,
-          chatRoomId: chatRoomId.current,
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }).then((res) => res.json()),
+  const { mutate: sendMessage, sendIsPending } = useMutation({
+    mutationFn: (content) => postSendMessage(chatRoomId.current, content),
     onSuccess: (data) => {
       setMessageList((list) => [
         ...list,
-        { content: data.content, isBot: data.isBot },
+        { content: data.content, isBot: data.bot },
       ]);
       setSuggestion({ show: true, list: data.recommendedQuestions });
     },
   });
 
-  const handleSendMessage = ({ message }) => {
+  const handleSendMessage = (content) => {
     setSuggestion((prev) => ({ ...prev, show: false }));
-    setMessageList((list) => [...list, { content: message, isBot: false }]);
+    setMessageList((list) => [...list, { content: content, isBot: false }]);
     if (messageList.length === 0) {
-      createChatroom(message); // 채팅방 생성
+      createChatroom(content); // 채팅방 생성
     } else {
-      sendMessage(message); // 채팅 메세지 전송
+      sendMessage(content); // 채팅 메세지 전송
+      setInputText('');
     }
   };
 
@@ -101,13 +86,16 @@ const ChatbotInit = () => {
         <h1 className='mx-auto text-lg font-semibold'>챗봇과 대화하기</h1>
       </div>
       <div className='flex grow flex-col gap-3 overflow-y-auto p-4'>
-        <ChatbotMessage text={firstMessage} />
+        <ChatbotMessage key={0} text={firstMessage} />
         {messageList.map((msg) =>
           msg.isBot ? (
             <ChatbotMessage key={msg.content} text={msg.content} />
           ) : (
             <UserMessage key={msg.content} text={msg.content} />
           )
+        )}
+        {(createIsPending || sendIsPending) && (
+          <ChatbotMessage key={-1} text={'...'} />
         )}
         {suggestion.show &&
           suggestion.list.map((question) => (

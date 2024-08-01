@@ -38,21 +38,22 @@ const ChatbotInit = () => {
     show: true,
     list: mostAskedQuestion,
   });
+  const [isLoading, setIsLoading] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const chatRoomId = useRef();
   const navigate = useNavigate();
-
   const { checkAuth } = useAuth();
 
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
 
-  const { mutate: createChatroom, createIsPending } = useMutation({
+  const { mutate: createChatroom } = useMutation({
     mutationFn: (title) => postCreateChatRoom(title),
     onSuccess: (data) => {
       chatRoomId.current = data.chatRoomId;
+      setIsLoading(false);
       setMessageList((list) => [
         ...list,
         { content: data.content, isBot: data.bot },
@@ -62,9 +63,10 @@ const ChatbotInit = () => {
     onError: (err) => console.log(err),
   });
 
-  const { mutate: sendMessage, sendIsPending } = useMutation({
+  const { mutate: sendMessage } = useMutation({
     mutationFn: (content) => postSendMessage(chatRoomId.current, content),
     onSuccess: (data) => {
+      setIsLoading(false);
       setMessageList((list) => [
         ...list,
         { content: data.content, isBot: data.bot },
@@ -77,8 +79,10 @@ const ChatbotInit = () => {
     setSuggestion((prev) => ({ ...prev, show: false }));
     setMessageList((list) => [...list, { content: content, isBot: false }]);
     if (messageList.length === 0) {
+      setIsLoading(true);
       createChatroom(content); // 채팅방 생성
     } else {
+      setIsLoading(true);
       sendMessage(content); // 채팅 메세지 전송
       setInputText('');
     }
@@ -101,8 +105,12 @@ const ChatbotInit = () => {
             <UserMessage key={msg.content} text={msg.content} />
           )
         )}
-        {(createIsPending || sendIsPending) && (
-          <ChatbotMessage key={-1} text={'...'} />
+        {isLoading && (
+          <ChatbotMessage
+            key={-1}
+            text={'생각하는 중...'}
+            style={{ color: '#a3a3a3' }}
+          />
         )}
         {suggestion.show &&
           suggestion.list.map((question) => (

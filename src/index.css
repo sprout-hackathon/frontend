@@ -58,3 +58,19 @@
     @apply h-12 w-12 appearance-none rounded-full border-4 border-gray-200 bg-gray-200;
   }
 }
+
+@keyframes bounce {
+  from {
+    transform: translateY(5%);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@layer utilities {
+  .animate-float {
+    animation: bounce 0.1s;
+  }
+}

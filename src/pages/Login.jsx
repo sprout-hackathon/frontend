@@ -13,9 +13,7 @@ const Login = () => {
     const loginfetching = async (credentials) => {
         const response = await axios.post(`${BASE_URL}/api/users/login`, credentials);
         const token = response.data.accessToken
-        const newToken = jwtDecode(token)
-        console.log(newToken)
-        setCookie('user', newToken.sub, {path:'/'})
+        setCookie('user', token, {path:'/'})
         return response.data;
     };
 

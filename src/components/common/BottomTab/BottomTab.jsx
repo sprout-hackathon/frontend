@@ -17,11 +17,11 @@ const BottomTab = () => {
   if (
     (location.pathname === '/') |
     (location.pathname === '/chatlog') |
-    (location.pathname === '/community') |
+    (location.pathname === '/photolog') |
     (location.pathname === '/mypage')
   ) {
     return (
-      <div className='absolute flex h-20 w-full flex-row items-center justify-stretch rounded-t-xl border bg-white'>
+      <div className='absolute flex h-20 w-full flex-row items-center justify-stretch rounded-t-xl border-t bg-white'>
         <BottomTabButton
           text='홈'
           path='/'
@@ -36,8 +36,8 @@ const BottomTab = () => {
         />
         <ChatbotButton />
         <BottomTabButton
-          text='커뮤니티'
-          path='/community'
+          text='사진 내역'
+          path='/photolog'
           blueIcon={communityBlueIcon}
           grayIcon={communityGrayIcon}
         />

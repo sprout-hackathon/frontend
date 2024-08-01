@@ -3,20 +3,60 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Dropdown from "../components/initialset/Dropdown";
 import useProfileStore from "../store/useProfileStore";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 
 const InitialSet2 = () => {
     const navigator = useNavigate();
-    const [view, setView] = useState(false); 
-    const textOptions = [
-        "English",
-        "tiếng Việt",
-        "Español",
-        "castellano",
-        "العربية",
-        "Deutsch",
-        "日本語"
-    ];
+    const [lang, setLang] = useState([]);
+    const [nation, setNation] = useState([])
+
+    const fetchNations = async() => {
+        const response = await axios.get(`${BASE_URL}/api/nations`, {
+          headers: {
+            Accept: '*/*',  // 서버에서 모든 형식을 허용하도록 설정
+          },
+        });
+        setNation(response.data)
+      };
+
+    const _ = useQuery({
+        queryKey: ['nation'],
+        queryFn: async() => fetchNations(),  // queryFn
+    });
+
+    const textOptionsNation = {
+        name : nation.map(e => e.nationOriginName),
+        id : nation.map(e => e.nationCode),
+    };
+ 
+
+
+
+    
+    const fetchLanguage = async() => {
+        const response = await axios.get(`${BASE_URL}/api/nations/languages`, {
+          headers: {
+            Accept: '*/*',  // 서버에서 모든 형식을 허용하도록 설정
+          },
+        });
+        setLang(response.data)
+      };
+
+    const __ = useQuery({
+        queryKey: ['lang'],
+        queryFn: async() => fetchLanguage(),  // queryFn
+    });
+
+
+
+    const textOptionsLang = {
+        name : lang.map(e => e.languageOriginName),
+        id : lang.map(e => e.languageCode),
+    };
  
     const {
         id,
@@ -42,7 +82,7 @@ const InitialSet2 = () => {
         } = useProfileStore();
 
     
-    console.log(id, password, nickname, nationCode,languageCode, proficiency)
+    console.log(nationCode,languageCode)
 
     return(
         <div className='-mb-20 h-dvh overflow-y-auto grid justify-items-center'>
@@ -63,20 +103,20 @@ const InitialSet2 = () => {
                     국가이름
                 </h1>
             </div>
-
-            <input
+            <Dropdown textOptions = {textOptionsNation} value = {nationCode} setValue = {setNationCode} placeholder={"국적을 선택해주세요."}/>
+            {/* <input
                 type='nickname'
                 className='w-[324px] mb-4 h-[49px] grow rounded-lg border bg-gray-100 px-3 py-2 text-sm focus:outline-none'
                 placeholder="국가이름을 입력해주세요"
                 onChange={(e) => setNationCode(e.target.value)}
                 value={nationCode}
                 required
-            />
+            /> */}
             <div className="mb-10">
                 <h1 className="font-semibold mb-2">
                     사용언어(한국어 제외)
                 </h1>
-                <Dropdown textOptions = {textOptions} value = {languageCode} setValue = {setLanguageCode} placeholder={"사용하시는 언어를 선택해주세요."}/>
+                <Dropdown textOptions = {textOptionsLang} value = {languageCode} setValue = {setLanguageCode} placeholder={"사용하시는 언어를 선택해주세요."}/>
             </div>
 
             <button className="mt-10 pb-8" onClick={()=>{

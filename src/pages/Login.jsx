@@ -4,9 +4,11 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { setCookie } from ".././api/Cookies";
 import { jwtDecode} from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const Login = () => {
+    const navigator = useNavigate()
 
     const loginfetching = async (credentials) => {
         const response = await axios.post(`${BASE_URL}/api/users/login`, credentials);
@@ -22,6 +24,7 @@ const Login = () => {
     onSuccess: (data) => {
         const { token } = data;
         console.log("로그인 성공 및 토큰 저장:", data);
+        navigator('/')
     },
     onError: (error) => {
         console.error("로그인 실패:", error);
@@ -59,7 +62,7 @@ const Login = () => {
             id: id,
             password: password,
           });
-        };
+    };
 
 return(
         <div className='-mb-20 pb-20 grid justify-items-center'>

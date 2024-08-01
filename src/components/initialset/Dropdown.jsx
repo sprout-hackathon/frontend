@@ -12,7 +12,7 @@ export default function Dropdown({textOptions, value, setValue, placeholder}){
             <div className="w-[324px] py-[14px] px-[10px] mt-0 mb-[5px] border border-solid border-[var(--shadow)] rounded-[5px] bg-[var(--white)] leading-[15px] cursor-pointer relative"
                 onClick={()=>{isOpen ? setIsOpen(false) : setIsOpen(true)}}
             >
-                {value || placeholder}
+                {item || placeholder}
                 <div className="absolute top-[14px] left-[calc(100%-22px)] text-[0.6em]">▼</div>
             </div>
             {isOpen ?  
@@ -29,14 +29,14 @@ export default function Dropdown({textOptions, value, setValue, placeholder}){
                
                     ></input><hr/>
                     
-                    {textOptions.filter((data)=> {
+                    {textOptions.name.filter((data)=> {
                         if(searchItem == ''){
                             return data
                         }else if(data.toLowerCase().includes(searchItem.toLowerCase())){
                             return data
                         }
-                    }).map(data => {
-                        return <div className="w-full p-[10px] bg-[var(--white)] leading-[15px] cursor-pointer hover:bg-[var(--white-second)]" onClick={()=>{setValue(data); setIsOpen(false); setSearchItem("");}}>{data}</div>;
+                    }).map((data,idx) => {
+                        return <div className="w-full p-[10px] bg-[var(--white)] leading-[15px] cursor-pointer hover:bg-[var(--white-second)]" onClick={()=>{setValue(textOptions.id[idx]);setItem(data); setIsOpen(false); setSearchItem("");}}>{data}</div>;
                     })
                 
                     }

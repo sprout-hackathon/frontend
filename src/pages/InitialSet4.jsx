@@ -2,6 +2,9 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import useProfileStore from "../store/useProfileStore";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const InitialSet4 = () => {
     const navigator = useNavigate();
@@ -29,6 +32,42 @@ const InitialSet4 = () => {
         } = useProfileStore();
 
     console.log(hasCertification)
+
+    const registerfetching = async (credentials) => {
+        const response = await axios.post(`${BASE_URL}/api/users/register`, credentials);
+        return response.data;
+    };
+
+    const mutation = useMutation({
+        mutationFn: registerfetching,
+        onSuccess: (data) => {
+            console.log("로그인 성공 및 토큰 저장:", data);
+            navigator('/complete-page')
+        },
+        onError: (error) => {
+            console.error("로그인 실패:", error);
+        },
+        });
+
+    const handleSubmit = (event) => {
+        if (hasCertification === true){
+            navigator('/signup/initial-certification-number')
+        }else {
+        event.preventDefault();
+
+        mutation.mutate({
+            "id": id,
+            "password": password,
+            "nickname": nickname,
+            "nationCode": nationCode,
+            "languageCode": languageCode,
+            "proficiency": proficiency,
+            "hasCertification": true,
+            "certificationCode": certificationCode,
+            "workHistories": []
+        });
+        }
+    };
 
     return(
         <div className='-mb-20 h-dvh grid justify-items-center'>
@@ -59,13 +98,7 @@ const InitialSet4 = () => {
                 </div>
             </div>
 
-            <button className=" mb-8" onClick={()=>{
-                if (hasCertification === true){
-                    navigator('/signup/initial-certification-number')
-                }else {
-                    navigator('/complete-page')
-                }
-                }}>
+            <button className=" mb-8" onClick={handleSubmit}>
                 <div className='w-[324px] rounded-lg h-[49px] grid content-center font-semibold bg-blue text-white hover:bg-[#3b5998]/90'>다음</div>
             </button>
 

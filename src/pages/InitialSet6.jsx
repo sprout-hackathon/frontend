@@ -3,8 +3,7 @@ import { useNavigate } from "react-router-dom";
 import useProfileStore from "../store/useProfileStore";
 import Dropdown from "../components/initialset/Dropdown";
 import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const keyword = "";  // 검색할 키워드
 
@@ -12,7 +11,6 @@ const keyword = "";  // 검색할 키워드
 
 const InitialSet6 = () => {
     const navigator = useNavigate();
-    const queryClient = useQueryClient();
     const [data, setData] = useState([]);
 
     const fetchHospitals = async (keyword) => {
@@ -27,12 +25,69 @@ const InitialSet6 = () => {
         setData(response.data)
       };
     
-      const {isError, isLoading, error } = useQuery({
-        queryKey: ['hospitals', keyword],
-        queryFn: async() => fetchHospitals(keyword),  // queryFn
-        });
+    const {isError, isLoading, error } = useQuery({
+    queryKey: ['hospitals'],
+    queryFn: async() => fetchHospitals(keyword),  // queryFn
+    });
 
-    const textOptions = data.map((e) => e.name)
+    const textOptions = {
+        name : data.map((e) => e.name),
+        id : data.map((e) => e.hospitalId)
+    }
+
+    const registerfetching = async (credentials) => {
+        const response = await axios.post(`${BASE_URL}/api/users/register`, credentials);
+        return response.data;
+    };
+
+    const mutation = useMutation({
+    mutationFn: registerfetching,
+    onSuccess: (data) => {
+        console.log("로그인 성공 및 토큰 저장:", data);
+    },
+    onError: (error) => {
+        console.error("로그인 실패:", error);
+    },
+    });
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+
+        mutation.mutate({
+            "id": id,
+            "password": password,
+            "nickname": nickname,
+            "nationCode": nationCode,
+            "languageCode": languageCode,
+            "proficiency": proficiency,
+            "hasCertification": true,
+            "certificationCode": certificationCode,
+            "workHistories": [
+                {
+                    "workDuration": workDuration,
+                    "hospitalId": hospitalId,
+                }
+            ]
+        });
+        navigator('/complete-page')
+    };
+    const handleSubmitskip = (event) => {
+        event.preventDefault();
+
+        mutation.mutate({
+            "id": id,
+            "password": password,
+            "nickname": nickname,
+            "nationCode": nationCode,
+            "languageCode": languageCode,
+            "proficiency": proficiency,
+            "hasCertification": true,
+            "certificationCode": certificationCode,
+            "workHistories": []
+        });
+        navigator('/complete-page')
+    };
+
 
     
     const {
@@ -58,7 +113,7 @@ const InitialSet6 = () => {
     setHospitalId
     } = useProfileStore();
 
-    console.log(id, password, nickname, nationCode, languageCode, proficiency,hasCertification, certificationCode, workDuration, hospitalId )
+    console.log(typeof id, typeof password, typeof nickname, typeof nationCode, typeof languageCode, typeof proficiency, typeof hasCertification, typeof certificationCode, typeof workDuration, typeof hospitalId )
 
     return(
         
@@ -91,15 +146,11 @@ const InitialSet6 = () => {
                 required
             />
 
-            <button className="mt-16" onClick={()=>{
-                navigator('/complete-page')
-                }}>
+            <button className="mt-16" onClick={handleSubmitskip}>
                 <div className='w-[324px] rounded-lg h-[49px] grid content-center font-semibold bg-gray-200 text-black hover:bg-blue-light/90'>건너뛰기</div>
             </button>
 
-            <button className="mt-3 pb-8" onClick={()=>{
-                navigator('/complete-page')
-                }}>
+            <button className="mt-3 pb-8" onClick={handleSubmit}>
                 <div className='w-[324px] rounded-lg h-[49px] grid content-center font-semibold bg-blue text-white hover:bg-[#3b5998]/90'>다음</div>
             </button>
             </div>

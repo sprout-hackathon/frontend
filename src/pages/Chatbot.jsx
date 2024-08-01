@@ -76,16 +76,16 @@ const ChatbotInit = () => {
   });
 
   const handleSendMessage = (content) => {
+    if (isLoading || !content) return;
     setSuggestion((prev) => ({ ...prev, show: false }));
     setMessageList((list) => [...list, { content: content, isBot: false }]);
+    setIsLoading(true);
     if (messageList.length === 0) {
-      setIsLoading(true);
       createChatroom(content); // 채팅방 생성
     } else {
-      setIsLoading(true);
       sendMessage(content); // 채팅 메세지 전송
-      setInputText('');
     }
+    setInputText('');
   };
 
   return (

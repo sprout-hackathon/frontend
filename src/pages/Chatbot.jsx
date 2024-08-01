@@ -3,7 +3,7 @@ import leftChevronIcon from '../assets/icons/left-chevron.svg';
 import sendIcon from '../assets/icons/send-gray.svg';
 import ChatbotMessage from '../components/chatbot/ChatbotMessage';
 import Suggestion from '../components/chatbot/Suggestion';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import UserMessage from '../components/chatbot/UserMessage';
 import showIcon from '../assets/icons/chat-show.svg';
@@ -18,6 +18,7 @@ import Modal from '../components/common/Modal/Modal';
 import ModalText from '../components/common/Modal/ModalText';
 import ModalButton from '../components/common/Modal/ModalButton';
 import { postCreateChatRoom, postSendMessage } from '../api/chats';
+import useAuth from '../hooks/useAuth';
 
 const firstMessage = `반가워요! 저는 사용자님이 한국에서 생활하실 때 필요한 자격증에 대한 정보를 제공하는 자격증 도우미 챗봇이에요.
 
@@ -42,6 +43,11 @@ const ChatbotInit = () => {
   const [showModal, setShowModal] = useState(false);
   const chatRoomId = useRef();
   const navigate = useNavigate();
+  const { checkAuth } = useAuth();
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
 
   const { mutate: createChatroom } = useMutation({
     mutationFn: (title) => postCreateChatRoom(title),

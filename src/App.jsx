@@ -20,6 +20,8 @@ import InitialSet4 from './pages/InitialSet4';
 import InitialSet5 from './pages/InitialSet5';
 import InitialSet6 from './pages/InitialSet6';
 import Final from './pages/Final';
+import ChatMenu from './pages/ChatMenu';
+import ChatPhoto from './pages/ChatPhoto';
 
 const queryClient = new QueryClient();
 
@@ -34,8 +36,13 @@ function App() {
               <Route path='/login' element={<Login />} />
               <Route path='/detail/:id' element={<HomeDetail />} />
               <Route path='/chatlog' element={<ChatLog />} />
-              <Route path='/chatlog/detail/:id' element={<ChatLogDetail />} />
-              <Route path='/chatbot' element={<Chatbot />} />
+              <Route path='/chatbot' element={<ChatMenu />} />
+              <Route path='/chatbot/chat' element={<Chatbot />} />
+              <Route
+                path='/chatlog/chat/detail/:id'
+                element={<ChatLogDetail />}
+              />
+              <Route path='/chatbot/photo' element={<ChatPhoto />} />
               <Route path='/mypage' element={<Mypage />} />
               <Route path='/mypage/edit' element={<EditProfile />} />
               <Route path='/mypage/apply' element={<ApplyList />} />

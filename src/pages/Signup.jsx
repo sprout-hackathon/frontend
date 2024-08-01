@@ -31,8 +31,6 @@ const Signup = () => {
       } = useProfileStore();
 
 
-    console.log(id, password, nickname, nationCode,languageCode, proficiency)
-
     return(
         <div className='border-2 h-dvh -mb-20 overflow-y-auto grid justify-items-center'>
             <div className="w-[324px] mt-[59px] mb-[138px]">

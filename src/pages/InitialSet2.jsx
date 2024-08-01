@@ -81,7 +81,7 @@ const InitialSet2 = () => {
         setHospitalId
         } = useProfileStore();
 
-    
+    console.log(nationCode, languageCode)
     return(
         <div className='-mb-20 h-dvh overflow-y-auto grid justify-items-center'>
             <div className="border-2 h-[80px] w-screen gird content-center">

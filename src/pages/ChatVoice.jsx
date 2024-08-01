@@ -5,7 +5,7 @@ import ChatbotMessage from '../components/chatbot/ChatbotMessage';
 import { useEffect, useRef, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import UserMessage from '../components/chatbot/UserMessage';
-import { postCreateChatRoom, postSendMessage } from '../api/chats';
+import { postSendVoice, postSendMessage } from '../api/chats';
 import useAuth from '../hooks/useAuth';
 
 const firstMessage = `반가워요!
@@ -15,14 +15,12 @@ const firstMessage = `반가워요!
 
 const ChatVoice = () => {
     const [messageList, setMessageList] = useState([]);
-    const chatRoomId = useRef();
     const navigate = useNavigate();
     const [isRecording, setIsRecording] = useState(false);
     const [audioUrl, setAudioUrl] = useState(null);
+    const [form, setForm] = useState()
     const mediaRecorderRef = useRef(null);
     const audioChunksRef = useRef([]);
-    const startTimeRef = useRef(new Date().getTime());
-    const [recordingDuration, setRecordingDuration] = useState('');
   
 
   const { checkAuth } = useAuth();
@@ -31,35 +29,31 @@ const ChatVoice = () => {
     checkAuth();
   }, [checkAuth]);
 
-  const { mutate: createChatroom, createIsPending } = useMutation({
-    mutationFn: (title) => postCreateChatRoom(title),
-    onSuccess: (data) => {
-      chatRoomId.current = data.chatRoomId;
-      setMessageList((list) => [
-        ...list,
-        { content: data.content, isBot: data.bot },
-      ]);
-    },
-    onError: (err) => console.log(err),
-  });
+  // const { mutate: createChatroom, createIsPending } = useMutation({
+  //   mutationFn: (title) => postCreateChatRoom(title),
+  //   onSuccess: (data) => {
+  //     chatRoomId.current = data.chatRoomId;
+  //     setMessageList((list) => [
+  //       ...list,
+  //       { content: data.content, isBot: data.bot },
+  //     ]);
+  //   },
+  //   onError: (err) => console.log(err),
+  // });
 
   const { mutate: sendMessage, sendIsPending } = useMutation({
-    mutationFn: (content) => postSendMessage(chatRoomId.current, content),
+    mutationFn: (content) => postSendVoice(content),
     onSuccess: (data) => {
       setMessageList((list) => [
         ...list,
-        { content: data.content, isBot: data.bot },
+        { content: data, isBot: true },
       ]);
     },
   });
 
-  const handleSendMessage = (content) => {
-    setMessageList((list) => [...list, { duration:recordingDuration , isBot: false }]);
-    if (messageList.length === 0) {
-      createChatroom(content); // 채팅방 생성
-    } else {
-      sendMessage(content); // 채팅 메세지 전송
-    }
+  const handleSendMessage = ({audioUrl}) => {
+    setMessageList((list) => [...list, { isBot: false, audio: audioUrl}]);
+    sendMessage(form); // 채팅 메세지 전송
   };
 
     const startRecording = () => {
@@ -75,25 +69,14 @@ const ChatVoice = () => {
           };
   
           mediaRecorder.onstop = () => {
-            const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+            const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
             const newAudioUrl = URL.createObjectURL(audioBlob);
-            console.log(newAudioUrl)
-            const endTime = new Date().getTime();
-            const duration = endTime - startTimeRef.current;
-            // const minutes = Math.floor(duration / 60000);
-            const seconds = Math.floor((duration % 60000) / 1000);
-            setRecordingDuration(`00:0${seconds}`);
-
-            const sound = new File([newAudioUrl], "soundBlob", { lastModified: new Date().getTime(), type: "audio" });
             setAudioUrl(newAudioUrl);
+            uploadAudio(audioBlob);
        
             audioChunksRef.current = []; // Clear the chunks for next recording
-            setRecordingDuration.current = []
-            startTimeRef.current = new Date().getTime()
           };
 
-        
-  
           mediaRecorder.start();
           setIsRecording(true);
         })
@@ -101,6 +84,24 @@ const ChatVoice = () => {
           console.error('Error accessing microphone: ', err);
         });
     };
+    
+    const uploadAudio = async (audioBlob) => {
+        const formData = new FormData();
+        formData.append('file', audioBlob, 'recording.wav');
+        setForm(formData)
+        // try {
+        //   const response = await axios.post('https://your-server-url.com/upload', formData, {
+        //     headers: {
+        //       'Content-Type': 'multipart/form-data',
+        //     },
+        //   });
+    
+        //   console.log('File uploaded successfully: ' + response.data);
+        // } catch (error) {
+        //   console.error('Error uploading file:', error);
+        //   console.log('Error uploading file.');
+        // }
+      };
   
     const stopRecording = () => {
       if (mediaRecorderRef.current) {
@@ -110,13 +111,11 @@ const ChatVoice = () => {
 
     };
 
-    console.log(recordingDuration)
-
   return (
     <div className='flex h-dvh flex-col'>
       <div className='flex w-full flex-row border-b px-5 py-4'>
         <button onClick={() => navigate(-1)}>
-          <img src={leftChevronIcon} alt='back icon' />
+          <img className="cursor-pointer" src={leftChevronIcon} alt='back icon' />
         </button>
         <h1 className='mx-auto text-lg font-semibold'>음성으로 이해하기</h1>
       </div>
@@ -126,25 +125,25 @@ const ChatVoice = () => {
           msg.isBot ? (
             <ChatbotMessage key={msg.content} text={msg.content} />
           ) : (
-            <UserMessage key={msg.duration} text={msg.duration} />
+            <UserMessage key={msg.audio} audio={msg.audio} />
           )
         )}
-        {(createIsPending || sendIsPending) && (
+        {(sendIsPending) && (
           <ChatbotMessage key={-1} text={'...'} />
         )}
       </div>
-      <div className='flex flex-row border-y p-3 bg-gray-100 rounded-3xl'>
+      <div className='flex flex-row border-y p-3 bg-gray-200 rounded-3xl'>
 
-        <div className='grid justify-items-center w-full space-y-3 bg-gray-100 rounded-3xl'>
+        <div className='grid justify-items-center w-full space-y-3 bg-gray-200 rounded-3xl'>
                 <div>
                     <h3 className='font-semibold mt-2'>어르신 목소리를 들려주세요</h3>
                 </div>
                 <div className='gird justify-center content-center space-x-4 space-y-3'>
                     {audioUrl && (
-                        <audio className='w-[341px] bg-blue rounded-3xl p-2' controls src={audioUrl} />
+                        <audio className='w-[341px] bg-white rounded-lg p-2 [&::-webkit-media-controls-panel]:bg-white ' controls src={audioUrl} />
                     )}
                     {audioUrl&&(
-                            <button onClick={() => {setAudioUrl(null); startTimeRef.current=new Date().getTime();}}>
+                            <button onClick={() => {setAudioUrl(null);}}>
                                 <div className='border-3 font-semibold text-gray-500'>
                                     다시 녹음해보기  
                                 </div>
@@ -155,7 +154,7 @@ const ChatVoice = () => {
                     <div>
                         <h3 className='font-semibold mb-3'>녹음중...</h3>
                         <div className='w-[69px] h-[69px] border-2 bg-gray-300 rounded-full grid justify-center content-center'>
-                            <div className='w-[35px] h-[35px] bg-blue'></div>
+                            <div className='w-[35px] h-[35px] rounded-sm bg-blue'></div>
                         </div>
 
                     </div>
@@ -168,7 +167,7 @@ const ChatVoice = () => {
                     }
                     </button>
                     {audioUrl&&(
-                        <button onClick={() => handleSendMessage(audioUrl)}>
+                        <button onClick={() => handleSendMessage({audioUrl})}>
                             <div className='font-semibold text-gray-500'>
                                 챗봇에게 보내기
                             </div>

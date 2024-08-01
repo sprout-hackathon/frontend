@@ -1,8 +1,18 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
+import { useQuery } from '@tanstack/react-query';
+import { getImageRoomList } from '../api/imageChats';
+import Spinner from '../components/common/Spinner';
+import { getKoreanDate } from '../utils/getKoreanDate';
 
 const PhotoLog = () => {
-  const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+  const [date, setDate] = useState(getKoreanDate());
+  const { checkAuth } = useAuth();
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
 
   return (
     <div className='-mb-20 flex h-dvh flex-col pb-20'>
@@ -20,27 +30,51 @@ const PhotoLog = () => {
         onChange={(e) => setDate(e.target.value)}
         className='mx-5 my-4 text-lg font-bold hover:cursor-pointer focus:outline-none'
       />
-      <ListContainer />
+      <ListContainer date={date} />
     </div>
   );
 };
 
-const ListContainer = () => {
+const ListContainer = ({ date }) => {
+  const { data, isPending, isError } = useQuery({
+    queryKey: [date],
+    queryFn: () => getImageRoomList(date),
+  });
+
+  if (isPending)
+    return (
+      <ul className='flex grow p-5 pt-0'>
+        <Spinner className='m-auto' />
+      </ul>
+    );
+  if (isError)
+    return <ul className='grow p-5 pt-0'>사진 내역 불러오기에 실패했어요</ul>;
+
+  if (!data || data.length === 0)
+    return <p className='mx-5'>해당 날짜의 내역이 존재하지 않아요</p>;
+
   return (
     <ul className='flex grow flex-col gap-4 overflow-y-auto p-5 pt-0'>
-      <Link>
-        <li className='rounded-2xl border p-4'>
-          <p className='mb-2 text-base font-semibold'>제목</p>
-          <div className='mb-2 flex flex-row gap-3'>
-            <div className='rounded-x h-36 w-32 rounded-xl border' />
-            <div className='rounded-x h-36 w-32 rounded-xl border' />
-            <div className='my-auto'>+2</div>
-          </div>
-          <p className='h-12 overflow-hidden truncate whitespace-pre-wrap text-sm leading-4 text-gray-400'>
-            내용
-          </p>
-        </li>
-      </Link>
+      {data.map((room) => (
+        <Link
+          to={`/photolog/detail/${room.imageRoomId}`}
+          key={room.imageRoomId}
+        >
+          <li className='rounded-2xl border p-4'>
+            <p className='mb-2 text-base font-semibold'>{room.title}</p>
+            <div className='gap mb-2 grid grid-cols-2 gap-3 overflow-hidden rounded-xl border'>
+              {room.imageUrls.map((url) => (
+                <img
+                  key={url}
+                  src={url}
+                  alt='uploaded'
+                  className='h-48 object-cover'
+                />
+              ))}
+            </div>
+          </li>
+        </Link>
+      ))}
     </ul>
   );
 };

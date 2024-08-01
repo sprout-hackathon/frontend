@@ -1,10 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ChatlogCard from '../components/chatlog/ChatlogCard';
 import { useQuery } from '@tanstack/react-query';
 import { getChatRoomList } from '../api/chats';
+import useAuth from '../hooks/useAuth';
 
 const ChatLog = () => {
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+  const { checkAuth } = useAuth();
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
 
   return (
     <div className='-mb-20 flex h-dvh flex-col pb-20'>

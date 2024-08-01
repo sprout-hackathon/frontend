@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import leftChevronIcon from '../assets/icons/left-chevron.svg';
 import InfoCard from '../components/Home/InfoCard';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Modal from '../components/common/Modal/Modal';
 import ModalText from '../components/common/Modal/ModalText';
 import ModalButton from '../components/common/Modal/ModalButton';
@@ -15,11 +15,18 @@ import {
   postScrapRecruitment,
 } from '../api/recruitments';
 import { postApplication } from '../api/applications';
+import useAuth from '../hooks/useAuth';
 
 const HomeDetail = () => {
   const { id } = useParams();
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+
+  const { checkAuth } = useAuth();
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
 
   // 공고 내용 불러오기
   const { data, isPending, isError } = useQuery({

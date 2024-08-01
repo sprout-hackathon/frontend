@@ -3,14 +3,20 @@ import InfoCard from '../components/Home/InfoCard';
 import TagContainer from '../components/Home/TagContainer';
 import useRegionStore from '../store/region';
 import { getRecruitmentList } from '../api/recruitments';
+import useAuth from '../hooks/useAuth';
+import { useEffect } from 'react';
 
 const Home = () => {
   const { region } = useRegionStore();
+  const { checkAuth } = useAuth();
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
 
   const { data, isPending, isError } = useQuery({
     queryKey: ['recruitmentList', region],
     queryFn: () => getRecruitmentList(region, 0, 100),
-
   });
   // TODO: 필요 시 무한스크롤 구현
 

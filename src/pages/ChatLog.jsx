@@ -3,6 +3,7 @@ import ChatlogCard from '../components/chatlog/ChatlogCard';
 import { useQuery } from '@tanstack/react-query';
 import { getChatRoomList } from '../api/chats';
 import useAuth from '../hooks/useAuth';
+import Spinner from '../components/common/Spinner';
 
 const ChatLog = () => {
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
@@ -40,9 +41,16 @@ const ListContainer = ({ date }) => {
   });
 
   if (isLoading)
-    return <ul className='grow p-5 pt-0'>대화 내역을 불러오는 중이에요</ul>;
+    return (
+      <ul className='flex grow p-5 pt-0'>
+        <Spinner className='m-auto' />
+      </ul>
+    );
   if (isError)
     return <ul className='grow p-5 pt-0'>대화 내역 불러오기에 실패했어요</ul>;
+
+  if (data.length === 0)
+    return <p className='mx-5'>해당 날짜에 나눈 대화가 존재하지 않아요</p>;
 
   return (
     <ul className='flex grow flex-col gap-4 overflow-y-auto p-5 pt-0'>

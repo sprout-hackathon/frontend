@@ -42,7 +42,7 @@ const ChatbotInit = () => {
   const chatRoomId = useRef();
   const navigate = useNavigate();
 
-  const { mutate: createChatroom } = useMutation({
+  const { mutate: createChatroom, createIsPending } = useMutation({
     mutationFn: (title) => postCreateChatRoom(title),
     onSuccess: (data) => {
       chatRoomId.current = data.chatRoomId;
@@ -52,9 +52,10 @@ const ChatbotInit = () => {
       ]);
       setSuggestion((sug) => ({ ...sug, show: true }));
     },
+    onError: (err) => console.log(err),
   });
 
-  const { mutate: sendMessage } = useMutation({
+  const { mutate: sendMessage, sendIsPending } = useMutation({
     mutationFn: (content) => postSendMessage(chatRoomId.current, content),
     onSuccess: (data) => {
       setMessageList((list) => [
@@ -65,13 +66,14 @@ const ChatbotInit = () => {
     },
   });
 
-  const handleSendMessage = ({ content }) => {
+  const handleSendMessage = (content) => {
     setSuggestion((prev) => ({ ...prev, show: false }));
     setMessageList((list) => [...list, { content: content, isBot: false }]);
     if (messageList.length === 0) {
       createChatroom(content); // 채팅방 생성
     } else {
       sendMessage(content); // 채팅 메세지 전송
+      setInputText('');
     }
   };
 
@@ -91,6 +93,9 @@ const ChatbotInit = () => {
           ) : (
             <UserMessage key={msg.content} text={msg.content} />
           )
+        )}
+        {(createIsPending || sendIsPending) && (
+          <ChatbotMessage key={-1} text={'...'} />
         )}
         {suggestion.show &&
           suggestion.list.map((question) => (

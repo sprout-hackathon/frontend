@@ -6,7 +6,6 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 const postCreateChatRoom = async (title) => {
   const url = `${BASE_URL}/api/chats/rooms`;
   const token = await getAccessToken();
-
   const res = await axios.post(
     url,
     { title: title },
@@ -15,7 +14,7 @@ const postCreateChatRoom = async (title) => {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      timeout: 1000 * 10,
+      timeout: 1000 * 60,
     }
   );
 
@@ -34,7 +33,7 @@ const postSendMessage = async (chatRoomId, content) => {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      timeout: 1000 * 10,
+      timeout: 1000 * 60,
     }
   );
 

@@ -24,6 +24,7 @@ import ChatMenu from './pages/ChatMenu';
 import ChatPhoto from './pages/ChatPhoto';
 import PhotoLog from './pages/PhotoLog';
 import ChatVoice from './pages/ChatVoice';
+import ChatPhotoDetail from './pages/ChatPhotoDetail';
 
 const queryClient = new QueryClient();
 
@@ -43,8 +44,11 @@ function App() {
               <Route path='/chatlog' element={<ChatLog />} />
               <Route path='/chatlog/detail/:id' element={<ChatLogDetail />} />
               <Route path='/photolog' element={<PhotoLog />} />
-              <Route path='/photolog/detail/:id' element={<PhotoLog />} />
-              <Route path='/chatbot/voice' element={<ChatVoice/>} />
+              <Route
+                path='/photolog/detail/:id'
+                element={<ChatPhotoDetail />}
+              />
+              <Route path='/chatbot/voice' element={<ChatVoice />} />
               <Route path='/mypage' element={<Mypage />} />
               <Route path='/mypage/edit' element={<EditProfile />} />
               <Route path='/mypage/apply' element={<ApplyList />} />

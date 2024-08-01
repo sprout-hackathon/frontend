@@ -4,9 +4,10 @@ import { useQuery } from '@tanstack/react-query';
 import { getChatRoomList } from '../api/chats';
 import useAuth from '../hooks/useAuth';
 import Spinner from '../components/common/Spinner';
+import { getKoreanDate } from '../utils/getKoreanDate';
 
 const ChatLog = () => {
-  const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+  const [date, setDate] = useState(getKoreanDate());
   const { checkAuth } = useAuth();
 
   useEffect(() => {
@@ -39,6 +40,8 @@ const ListContainer = ({ date }) => {
     queryKey: ['chatroomList', date],
     queryFn: () => getChatRoomList(date),
   });
+
+  console.log(date);
 
   if (isLoading)
     return (

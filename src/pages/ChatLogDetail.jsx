@@ -1,7 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import leftChevronIcon from '../assets/icons/left-chevron.svg';
 import ChatbotMessage from '../components/chatbot/ChatbotMessage';
-import Suggestion from '../components/chatbot/Suggestion';
 import UserMessage from '../components/chatbot/UserMessage';
 import { useQuery } from '@tanstack/react-query';
 import { getChatLog } from '../api/chats';
@@ -29,7 +28,7 @@ const Chats = ({ chatRoomId }) => {
     queryFn: () => getChatLog(chatRoomId),
   });
 
-  if (isPending) return <div className='grow p-4'></div>;
+  if (isPending) return <div className='grow p-4'>대화 내역 불러오는 중</div>;
   if (isError)
     return <div className='grow p-4'>대화 내역 불러오기에 실패했어요</div>;
 

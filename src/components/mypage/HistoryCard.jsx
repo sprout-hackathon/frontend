@@ -3,7 +3,7 @@ import deleteIcon from '../../assets/icons/delete-gray.svg';
 import { Link } from 'react-router-dom';
 
 const HistoryCard = ({ data, editable = false }) => {
-  let address = data.hospital.address;
+  let address = data?.hospital.address;
   delete address.addressId;
   address = Object.values(address).join(' ');
 

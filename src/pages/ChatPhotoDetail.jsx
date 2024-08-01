@@ -2,11 +2,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 import leftChevronIcon from '../assets/icons/left-chevron.svg';
 import ChatbotMessage from '../components/chatbot/ChatbotMessage';
 import { useQuery } from '@tanstack/react-query';
-import { getChatLog } from '../api/chats';
 import useAuth from '../hooks/useAuth';
 import { useEffect } from 'react';
 import Spinner from '../components/common/Spinner';
 import UserImageMessage from '../components/chatbot/UserImageMessage';
+import { getImageRoom } from '../api/imageChats';
 
 const ChatPhotoDetail = () => {
   const { id } = useParams();
@@ -28,7 +28,7 @@ const ChatPhotoDetail = () => {
 const Chats = ({ chatRoomId }) => {
   const { data, isPending, isError } = useQuery({
     queryKey: ['chatImageRoom', chatRoomId],
-    queryFn: () => getChatLog(chatRoomId),
+    queryFn: () => getImageRoom(chatRoomId),
   });
 
   const { checkAuth } = useAuth();
@@ -64,6 +64,7 @@ const Chats = ({ chatRoomId }) => {
           />
         )
       )}
+      {console.log(data)}
     </div>
   );
 };

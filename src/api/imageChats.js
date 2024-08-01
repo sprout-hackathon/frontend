@@ -29,6 +29,8 @@ const postSendImageMessage = async (imageRoomId, content, files) => {
   const url = `${BASE_URL}/api/chats/images/messages`;
   const token = await getAccessToken();
 
+  console.log(imageRoomId, content);
+
   const formData = new FormData();
 
   const request = {
@@ -51,6 +53,9 @@ const postSendImageMessage = async (imageRoomId, content, files) => {
 };
 
 const getImageRoomList = async (date) => {
+  // if (!date) return [];
+  console.log(date);
+
   const url = `${BASE_URL}/api/chats/images/rooms`;
   const token = await getAccessToken();
 

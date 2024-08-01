@@ -26,10 +26,10 @@ const ChatMenu = () => {
       </h5>
       <Link
         to='/chatbot/chat'
-        className='mx-5 mb-4 flex flex-row gap-5 rounded-xl border-2 border-gray-200 bg-gray-100 p-6'
+        className='mx-5 mb-4 flex flex-row gap-5 rounded-xl border-2 border-gray-200 bg-gray-100 p-6 cursor-pointer hover:bg-blue text-gray-500 hover:text-white'
       >
         <img src={chatIcon} alt='chat icon' />
-        <div className='text-left text-gray-500'>
+        <div className='text-left'>
           <p className='text-xl font-bold'>{`챗봇과 
           대화하기`}</p>
           <p className='text-xs'>
@@ -40,10 +40,10 @@ const ChatMenu = () => {
       </Link>
       <Link
         to='/chatbot/photo'
-        className='mx-5 mb-4 flex flex-row gap-5 rounded-xl border-2 border-gray-200 bg-gray-100 p-6'
+        className='mx-5 mb-4 flex flex-row gap-5 rounded-xl border-2 border-gray-200 bg-gray-100 p-6 hover:bg-blue cursor-pointer  text-gray-500 hover:text-white'
       >
         <img src={photoIcon} alt='chat icon' />
-        <div className='text-left text-gray-500'>
+        <div className='text-left'>
           <p className='text-xl font-bold'>{`사진으로
           질문하기`}</p>
           <p className='text-xs'>
@@ -55,10 +55,10 @@ const ChatMenu = () => {
       </Link>
       <Link
         to='/chatbot/voice'
-        className='mx-5 flex flex-row gap-5 rounded-xl border-2 border-gray-200 bg-gray-100 p-6'
+        className='mx-5 flex flex-row gap-5 rounded-xl border-2 border-gray-200 bg-gray-100 p-6 hover:bg-blue cursor-pointer  text-gray-500 hover:text-white'
       >
         <img src={recordIcon} alt='chat icon' />
-        <div className='text-left text-gray-500'>
+        <div className='text-left'>
           <p className='text-xl font-bold'>{`음성으로
           이해하기`}</p>
           <p className='text-xs'>

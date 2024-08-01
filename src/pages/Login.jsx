@@ -65,7 +65,7 @@ const Login = () => {
 return(
         <div className='-mb-20 pb-20 grid justify-items-center'>
             <h1 className='mt-[213px] mb-[29px] text-3xl font-black text-blue'>
-                유니케어 Uni-Care
+                유니케어 UniCare
             </h1>
             <h5 className="w-[324px] text-xl font-extrabold">ID</h5>
             <input

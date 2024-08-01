@@ -35,8 +35,8 @@ export default function Dropdown({textOptions, value, setValue, placeholder}){
                         }else if(data.toLowerCase().includes(searchItem.toLowerCase())){
                             return data
                         }
-                    }).map((data,idx) => {
-                        return <div className="w-full p-[10px] bg-[var(--white)] leading-[15px] cursor-pointer hover:bg-[var(--white-second)]" onClick={()=>{setValue(textOptions.id[idx]);setItem(data); setIsOpen(false); setSearchItem("");}}>{data}</div>;
+                    }).map((data) => {
+                        return <div className="w-full p-[10px] bg-[var(--white)] leading-[15px] cursor-pointer hover:bg-[var(--white-second)]" onClick={()=>{setValue(textOptions.id[textOptions.name.indexOf(data)]);setItem(data); setIsOpen(false); setSearchItem("");}}>{data}</div>;
                     })
                 
                     }

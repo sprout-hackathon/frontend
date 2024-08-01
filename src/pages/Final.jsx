@@ -11,7 +11,7 @@ const Final = () => {
                 
             </div>
             <h1 class="text-l text-blue font-normal">내 곁의 요양보호사 도우미</h1>
-            <h2 class="text-2xl text-blue font-bold">유니케어 Uni-Care</h2>
+            <h2 class="text-2xl text-blue font-bold">유니케어 UniCare</h2>
             <div class="mb-3">
                 <img src={serviceIcon} alt="Service Icon" class="mx-auto mb-4 w-36 h-36" />
             </div>

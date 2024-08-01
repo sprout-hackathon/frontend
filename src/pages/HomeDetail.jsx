@@ -16,6 +16,7 @@ import {
 } from '../api/recruitments';
 import { postApplication } from '../api/applications';
 import useAuth from '../hooks/useAuth';
+import Spinner from '../components/common/Spinner';
 
 const HomeDetail = () => {
   const { id } = useParams();
@@ -76,7 +77,7 @@ const HomeDetail = () => {
 };
 
 const Container = ({ data, isPending, isError }) => {
-  if (isPending) return <p>공고 정보를 불러오는 중이에요</p>;
+  if (isPending) return <Spinner className='m-auto mt-60' />;
   if (isError) return <p>공고 정보를 불러오는 데 실패했어요</p>;
 
   return (

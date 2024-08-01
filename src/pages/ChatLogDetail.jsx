@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getChatLog } from '../api/chats';
 import useAuth from '../hooks/useAuth';
 import { useEffect } from 'react';
+import Spinner from '../components/common/Spinner';
 
 const ChatlogDetail = () => {
   const { id } = useParams();
@@ -17,7 +18,7 @@ const ChatlogDetail = () => {
         <button onClick={() => navigate(-1)}>
           <img src={leftChevronIcon} alt='back icon' />
         </button>
-        <h1 className='mx-auto text-lg font-semibold'>제목</h1>
+        <h1 className='mx-auto text-lg font-semibold'>챗봇 대화 내역</h1>
       </div>
       <Chats chatRoomId={id} />
     </div>
@@ -36,7 +37,12 @@ const Chats = ({ chatRoomId }) => {
     checkAuth();
   }, [checkAuth]);
 
-  if (isPending) return <div className='grow p-4'>대화 내역 불러오는 중</div>;
+  if (isPending)
+    return (
+      <div className='flex grow p-4'>
+        <Spinner className='m-auto' />
+      </div>
+    );
   if (isError)
     return <div className='grow p-4'>대화 내역 불러오기에 실패했어요</div>;
 

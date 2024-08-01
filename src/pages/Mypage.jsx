@@ -40,23 +40,9 @@ const Mypage = () => {
         <p className='mb-0.5 text-base font-bold'>Feed</p>
         <Link
           to='/mypage/scrap'
-          className='my-3 flex flex-row items-center justify-between text-sm font-medium'
-        >
-          내 스크랩 목록 <img src={rightChevron} alt='' />
-        </Link>
-        <hr />
-        <Link
-          to='/mypage/posts'
-          className='my-3 flex flex-row items-center justify-between text-sm font-medium'
-        >
-          내가 작성한 게시글 <img src={rightChevron} alt='' />
-        </Link>
-        <hr />
-        <Link
-          to='/mypage/comments'
           className='mt-3 flex flex-row items-center justify-between text-sm font-medium'
         >
-          내가 작성한 댓글 <img src={rightChevron} alt='' />
+          내 스크랩 목록 <img src={rightChevron} alt='' />
         </Link>
       </div>
       <div className='card mx-5'>

@@ -1,56 +1,95 @@
-import React from "react"
+import React, { useState } from "react"
 import { useNavigate } from "react-router-dom";
 import useProfileStore from "../store/useProfileStore";
 import Dropdown from "../components/initialset/Dropdown";
 import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+const keyword = "";  // 검색할 키워드
+
 
 
 const InitialSet6 = () => {
     const navigator = useNavigate();
-    const queryClient = useQueryClient();
-    const accessToken = "abcd"
+    const [data, setData] = useState([]);
 
-    // const fetchHospitals = async (keyword) => {
-    //     const response = await axios.get('http://3.107.17.104:8080/api/hospitals', {
-    //       headers: {
-    //         Accept: '*/*',  // 서버에서 모든 형식을 허용하도록 설정
-    //       },
-    //       params: {
-    //         keyword: keyword,  // 한글 키워드를 적절히 URL 인코딩
-    //       },
-    //     });
-    //     console.log(response.data)
-    //     return response.data;
-    //   };
-    // const keyword = "병원";  // 검색할 키워드
+    const fetchHospitals = async (keyword) => {
+        const response = await axios.get(`${BASE_URL}/api/hospitals`, {
+          headers: {
+            Accept: '*/*',  // 서버에서 모든 형식을 허용하도록 설정
+          },
+          params: {
+            keyword: keyword,  // 한글 키워드를 적절히 URL 인코딩
+          },
+        });
+        setData(response.data)
+      };
     
-    // const { data, isError, isLoading, error } = useQuery({
-    //     queryKey: ['hospitals', keyword],
-    //     queryFn: async() => fetchHospitals(keyword),  // queryFn
-    //     });
+    const {isError, isLoading, error } = useQuery({
+    queryKey: ['hospitals'],
+    queryFn: async() => fetchHospitals(keyword),  // queryFn
+    });
+
+    const textOptions = {
+        name : data.map((e) => e.name),
+        id : data.map((e) => e.hospitalId)
+    }
+
+    const registerfetching = async (credentials) => {
+        const response = await axios.post(`${BASE_URL}/api/users/register`, credentials);
+        return response.data;
+    };
+
+    const mutation = useMutation({
+    mutationFn: registerfetching,
+    onSuccess: (data) => {
+        console.log("로그인 성공 및 토큰 저장:", data);
+    },
+    onError: (error) => {
+        console.error("로그인 실패:", error);
+    },
+    });
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+
+        mutation.mutate({
+            "id": id,
+            "password": password,
+            "nickname": nickname,
+            "nationCode": nationCode,
+            "languageCode": languageCode,
+            "proficiency": proficiency,
+            "hasCertification": true,
+            "certificationCode": certificationCode,
+            "workHistories": [
+                {
+                    "workDuration": workDuration,
+                    "hospitalId": hospitalId,
+                }
+            ]
+        });
+        navigator('/complete-page')
+    };
+    const handleSubmitskip = (event) => {
+        event.preventDefault();
+
+        mutation.mutate({
+            "id": id,
+            "password": password,
+            "nickname": nickname,
+            "nationCode": nationCode,
+            "languageCode": languageCode,
+            "proficiency": proficiency,
+            "hasCertification": true,
+            "certificationCode": certificationCode,
+            "workHistories": []
+        });
+        navigator('/complete-page')
+    };
+
+
     
-    // if (isLoading) {
-    //     return <div>Loading...</div>;
-    // }
-     
-    // if (isError) {
-    //     return <div>Error: {error.message}</div>;
-    // }
-
-
-    const textOptions = [
-        "서울 요양",
-        "부산 요양",
-        "경희 요양",
-        "연세 요양",
-        "경기 요양"
-    ]
-
-    
-    
-
     const {
     id,
     password,
@@ -74,7 +113,7 @@ const InitialSet6 = () => {
     setHospitalId
     } = useProfileStore();
 
-    console.log(id, password, nickname, nationCode, languageCode, proficiency,hasCertification, certificationCode, workDuration, hospitalId )
+    console.log(typeof id, typeof password, typeof nickname, typeof nationCode, typeof languageCode, typeof proficiency, typeof hasCertification, typeof certificationCode, typeof workDuration, typeof hospitalId )
 
     return(
         
@@ -107,15 +146,11 @@ const InitialSet6 = () => {
                 required
             />
 
-            <button className="mt-16" onClick={()=>{
-                navigator('/complete-page')
-                }}>
+            <button className="mt-16" onClick={handleSubmitskip}>
                 <div className='w-[324px] rounded-lg h-[49px] grid content-center font-semibold bg-gray-200 text-black hover:bg-blue-light/90'>건너뛰기</div>
             </button>
 
-            <button className="mt-3 pb-8" onClick={()=>{
-                navigator('/complete-page')
-                }}>
+            <button className="mt-3 pb-8" onClick={handleSubmit}>
                 <div className='w-[324px] rounded-lg h-[49px] grid content-center font-semibold bg-blue text-white hover:bg-[#3b5998]/90'>다음</div>
             </button>
             </div>

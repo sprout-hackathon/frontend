@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import leftChevronIcon from '../assets/icons/left-chevron.svg';
 import chatIcon from '../assets/icons/chatbot-chat.svg';
 import photoIcon from '../assets/icons/chatbot-photo.svg';
+import recordIcon from '../assets/icons/chat-record.svg';
 
 const ChatMenu = () => {
   const navigate = useNavigate();
@@ -39,7 +40,7 @@ const ChatMenu = () => {
       </Link>
       <Link
         to='/chatbot/photo'
-        className='mx-5  mb-4 flex flex-row gap-5 rounded-xl border-2 border-gray-200 bg-gray-100 p-6'
+        className='mx-5 mb-4 flex flex-row gap-5 rounded-xl border-2 border-gray-200 bg-gray-100 p-6'
       >
         <img src={photoIcon} alt='chat icon' />
         <div className='text-left text-gray-500'>
@@ -56,14 +57,14 @@ const ChatMenu = () => {
         to='/chatbot/voice'
         className='mx-5 flex flex-row gap-5 rounded-xl border-2 border-gray-200 bg-gray-100 p-6'
       >
-        <img src={photoIcon} alt='chat icon' />
+        <img src={recordIcon} alt='chat icon' />
         <div className='text-left text-gray-500'>
-          <p className='text-xl font-bold'>{`사진으로
-          질문하기`}</p>
+          <p className='text-xl font-bold'>{`음성으로
+          이해하기`}</p>
           <p className='text-xs'>
-            {`챗봇에게 문서 사진을 전달하면
-챗봇이 분석을 통해
-알기 쉽게 풀어드려요!`}
+            {`챗봇에게 음성으로
+어르신의 목소리를 전달하면
+이해하기 쉬운 표준어로 알려드려요.`}
           </p>
         </div>
       </Link>

@@ -5,9 +5,9 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const postApplication = async (recruitmentId) => {
   const url = `${BASE_URL}/api/applications`;
-  const token = getAccessToken();
+  const token = await getAccessToken();
 
-  axios.post(
+  const res = await axios.post(
     url,
     { recruitmentId: recruitmentId },
     {
@@ -18,7 +18,33 @@ const postApplication = async (recruitmentId) => {
     }
   );
 
-  return true;
+  return res?.data;
 };
 
-export { postApplication };
+const getApplicationList = async () => {
+  const url = `${BASE_URL}/api/applications`;
+  const token = await getAccessToken();
+
+  const res = await axios.get(url, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  return res?.data;
+};
+
+const editApplicationState = async (applicationId, state) => {
+  const url = `${BASE_URL}/api/applications/${applicationId}`;
+  const token = await getAccessToken();
+
+  const res = await axios.patch(
+    url,
+    { state: state },
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+
+  return res?.data;
+};
+
+export { postApplication, getApplicationList, editApplicationState };

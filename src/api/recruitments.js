@@ -62,7 +62,7 @@ const postScrapRecruitment = async (recruitmentId) => {
 
 const deleteScrapRecruitment = async (recruitmentId) => {
   const url = `${BASE_URL}/api/recruitments/${recruitmentId}/scrap`;
-  const token = getAccessToken();
+  const token = await getAccessToken();
 
   await axios.delete(url, {
     headers: { Authorization: `Bearer ${token}` },

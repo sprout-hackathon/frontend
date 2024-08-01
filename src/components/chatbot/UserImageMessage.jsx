@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import ImageModal from './ImageModal';
 
 const UserImageMessage = ({ text, images }) => {
   const [showModal, setShowModal] = useState(false);
@@ -24,20 +25,7 @@ const UserImageMessage = ({ text, images }) => {
         {text}
       </div>
       {showModal && (
-        <div
-          onClick={() => setShowModal(false)}
-          className='absolute inset-0 flex flex-row gap-3 overflow-x-auto bg-black/30 px-5'
-        >
-          {images.map((image) => (
-            <img
-              key={URL.createObjectURL(image)}
-              onClick={(e) => e.stopPropagation()}
-              src={URL.createObjectURL(image)}
-              alt='img'
-              className='my-auto w-[99%] rounded-lg'
-            />
-          ))}
-        </div>
+        <ImageModal images={images} onClose={() => setShowModal(false)} />
       )}
     </div>
   );

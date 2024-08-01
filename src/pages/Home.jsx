@@ -5,6 +5,8 @@ import useRegionStore from '../store/region';
 import { getRecruitmentList } from '../api/recruitments';
 import useAuth from '../hooks/useAuth';
 import { useEffect } from 'react';
+import spinner from '../assets/spinner.svg';
+import Spinner from '../components/common/Spinner';
 
 const Home = () => {
   const { region } = useRegionStore();
@@ -39,7 +41,7 @@ const Home = () => {
 };
 
 const ListContainer = ({ isPending, isError, data }) => {
-  if (isPending) return <p className='p-5'>공고 목록을 불러오는 중이에요</p>;
+  if (isPending) return <Spinner className='mx-auto mt-28' />;
   if (isError) return <p className='p-5'>공고 목록을 불러오는 데 실패했어요</p>;
 
   if (data.content.length === 0)

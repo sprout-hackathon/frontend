@@ -21,7 +21,8 @@ import InitialSet5 from './pages/InitialSet5';
 import InitialSet6 from './pages/InitialSet6';
 import Final from './pages/Final';
 import ChatMenu from './pages/ChatMenu';
-import ChatPhoto from './pages/ChatPhoto';
+import ChatVoice from './pages/ChatVoice';
+// import ChatPhoto from './pages/ChatPhoto';
 
 const queryClient = new QueryClient();
 
@@ -42,7 +43,8 @@ function App() {
                 path='/chatlog/chat/detail/:id'
                 element={<ChatLogDetail />}
               />
-              <Route path='/chatbot/photo' element={<ChatPhoto />} />
+              {/* <Route path='/chatbot/photo' element={<ChatPhoto />} /> */}
+              <Route path='/chatbot/voice' element={<ChatVoice/>} />
               <Route path='/mypage' element={<Mypage />} />
               <Route path='/mypage/edit' element={<EditProfile />} />
               <Route path='/mypage/apply' element={<ApplyList />} />

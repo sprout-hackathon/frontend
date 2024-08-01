@@ -39,6 +39,21 @@ const ChatMenu = () => {
       </Link>
       <Link
         to='/chatbot/photo'
+        className='mx-5  mb-4 flex flex-row gap-5 rounded-xl border-2 border-gray-200 bg-gray-100 p-6'
+      >
+        <img src={photoIcon} alt='chat icon' />
+        <div className='text-left text-gray-500'>
+          <p className='text-xl font-bold'>{`사진으로
+          질문하기`}</p>
+          <p className='text-xs'>
+            {`챗봇에게 문서 사진을 전달하면
+챗봇이 분석을 통해
+알기 쉽게 풀어드려요!`}
+          </p>
+        </div>
+      </Link>
+      <Link
+        to='/chatbot/voice'
         className='mx-5 flex flex-row gap-5 rounded-xl border-2 border-gray-200 bg-gray-100 p-6'
       >
         <img src={photoIcon} alt='chat icon' />

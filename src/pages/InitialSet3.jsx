@@ -31,8 +31,6 @@ const InitialSet3 = () => {
         } = useProfileStore();
 
 
-    console.log(nickname, nationCode,languageCode, proficiency)
-
     return(
         <div className='-mb-20 h-dvh overflow-y-auto grid justify-items-center'>
             <div className="border-2 h-[80px] w-screen gird content-center">
@@ -64,7 +62,7 @@ const InitialSet3 = () => {
                 <span>매우 <br/>능숙해요</span>
             </div>
     
-            <button className=" mb-8" onClick={()=>{
+            <button className=" mt-16" onClick={()=>{
                 navigator('/signup/initial-certification')
                 }}>
                 <div className='w-[324px] rounded-lg h-[49px] grid content-center font-semibold bg-blue text-white hover:bg-[#3b5998]/90'>다음</div>

@@ -69,27 +69,28 @@ return(
             </h1>
             <h5 className="w-[324px] text-xl font-extrabold">ID</h5>
             <input
-            type='text'
-            className='mb-[26px] w-[324px] h-[49px] grow rounded-lg border bg-gray-100 px-3 py-2 text-sm focus:outline-none'
-            placeholder="아이디를 입력해주세요"
-            value={id}
-            onChange={(e)=>setId(e.target.value)}
+                type='text'
+                className='mb-[26px] w-[324px] h-[49px] grow rounded-lg border bg-gray-100 px-3 py-2 text-sm focus:outline-none'
+                placeholder="아이디를 입력해주세요"
+                value={id}
+                onChange={(e)=>setId(e.target.value)}
             />
             <h5 className="w-[324px] text-xl font-extrabold">Password</h5>
             <input
-            type='password'
-            className='mb-4 w-[324px] h-[49px] grow rounded-lg border bg-gray-100 px-3 py-2 text-sm focus:outline-none'
-            placeholder="비밀번호를 입력해주세요"
-            value={password}
-            onChange={(e)=>setPassword(e.target.value)}
+                type='password'
+                className='mb-4 w-[324px] h-[49px] grow rounded-lg border bg-gray-100 px-3 py-2 text-sm focus:outline-none'
+                placeholder="비밀번호를 입력해주세요"
+                value={password}
+                onChange={(e)=>setPassword(e.target.value)}
             />
 
-            <button
-            onClick={handleSubmit}
-            >
-                <div className='w-[324px] mt-[30px] mb-2 rounded-lg h-[49px] grid content-center font-semibold bg-blue text-white hover:bg-[#3b5998]/90'>로그인</div>
-                <div className='w-[324px] rounded-lg h-[49px] hover:bg-[#808080]/90 grid content-center font-semibold'>회원가입</div>
-            </button>
+            <div className='w-[324px] mt-[30px] mb-2 rounded-lg h-[49px] grid justify-items-center content-center font-semibold bg-blue text-white hover:bg-[#3b5998]/90'
+                onClick={handleSubmit}
+            >로그인</div>
+            <div className='w-[324px] rounded-lg h-[49px] hover:bg-[#808080]/90 grid justify-items-center content-center font-semibold'
+                onClick={()=>navigator('/signup')}
+            >회원가입</div>
+
         </div>
     );
 };

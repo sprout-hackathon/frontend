@@ -1,8 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ChatlogCard from '../components/chatlog/ChatlogCard';
+import { useQuery } from '@tanstack/react-query';
+import { getChatRoomList } from '../api/chats';
+import useAuth from '../hooks/useAuth';
 
 const ChatLog = () => {
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+  const { checkAuth } = useAuth();
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
 
   return (
     <div className='-mb-20 flex h-dvh flex-col pb-20'>
@@ -20,15 +28,28 @@ const ChatLog = () => {
         onChange={(e) => setDate(e.target.value)}
         className='mx-5 my-4 text-lg font-bold hover:cursor-pointer focus:outline-none'
       />
-      <ul className='flex grow flex-col gap-4 overflow-y-auto p-5 pt-0'>
-        <ChatlogCard />
-        <ChatlogCard />
-        <ChatlogCard />
-        <ChatlogCard />
-        <ChatlogCard />
-        <ChatlogCard />
-      </ul>
+      <ListContainer date={date} />
     </div>
+  );
+};
+
+const ListContainer = ({ date }) => {
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['chatroomList', date],
+    queryFn: () => getChatRoomList(date),
+  });
+
+  if (isLoading)
+    return <ul className='grow p-5 pt-0'>대화 내역을 불러오는 중이에요</ul>;
+  if (isError)
+    return <ul className='grow p-5 pt-0'>대화 내역 불러오기에 실패했어요</ul>;
+
+  return (
+    <ul className='flex grow flex-col gap-4 overflow-y-auto p-5 pt-0'>
+      {data.map((item) => (
+        <ChatlogCard key={item.chatRoomId} data={item} />
+      ))}
+    </ul>
   );
 };
 

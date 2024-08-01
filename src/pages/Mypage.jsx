@@ -6,8 +6,16 @@ import rightChevron from '../assets/icons/right-chevron-sm.svg';
 import { useQuery } from '@tanstack/react-query';
 import { getApplicationList } from '../api/applications';
 import { getWorkHistoryList } from '../api/workHistory';
+import useAuth from '../hooks/useAuth';
+import { useEffect } from 'react';
 
 const Mypage = () => {
+  const { checkAuth } = useAuth();
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
+
   const navigate = useNavigate();
 
   const handleApplyClick = () => navigate('/mypage/apply');

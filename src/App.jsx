@@ -45,10 +45,19 @@ function App() {
               <Route path='/signup/initial-nickname' element={<InitialSet />} />
               <Route path='/signup/initial-nation' element={<InitialSet2 />} />
               <Route path='/signup/initial-prof' element={<InitialSet3 />} />
-              <Route path='/signup/initial-certification' element={<InitialSet4/>} />
-              <Route path='/signup/initial-certification-number' element={<InitialSet5/>} />
-              <Route path='/signup/initial-workhistory' element={<InitialSet6/>} />
-              <Route path='/complete-page' element={<Final/> } />
+              <Route
+                path='/signup/initial-certification'
+                element={<InitialSet4 />}
+              />
+              <Route
+                path='/signup/initial-certification-number'
+                element={<InitialSet5 />}
+              />
+              <Route
+                path='/signup/initial-workhistory'
+                element={<InitialSet6 />}
+              />
+              <Route path='/complete-page' element={<Final />} />
             </Routes>
             <BottomTab />
           </BrowserRouter>

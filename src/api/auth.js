@@ -1,5 +1,7 @@
+import { getCookie } from './Cookies';
+
 const getAccessToken = async () => {
-  const token = localStorage.getItem('accessToken');
+  const token = getCookie('user');
 
   return token;
 };

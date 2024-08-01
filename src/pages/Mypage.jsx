@@ -3,8 +3,16 @@ import ApplyCard from '../components/mypage/ApplyCard';
 import ProfileSection from '../components/mypage/ProfileSection';
 import HistoryCard from '../components/mypage/HistoryCard';
 import rightChevron from '../assets/icons/right-chevron-sm.svg';
+import useAuth from '../hooks/useAuth';
+import { useEffect } from 'react';
 
 const Mypage = () => {
+  const { checkAuth } = useAuth();
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
+
   const navigate = useNavigate();
 
   const handleApplyClick = () => navigate('/mypage/apply');

@@ -4,6 +4,8 @@ import ChatbotMessage from '../components/chatbot/ChatbotMessage';
 import UserMessage from '../components/chatbot/UserMessage';
 import { useQuery } from '@tanstack/react-query';
 import { getChatLog } from '../api/chats';
+import useAuth from '../hooks/useAuth';
+import { useEffect } from 'react';
 
 const ChatlogDetail = () => {
   const { id } = useParams();
@@ -27,6 +29,12 @@ const Chats = ({ chatRoomId }) => {
     queryKey: ['chatlog', chatRoomId],
     queryFn: () => getChatLog(chatRoomId),
   });
+
+  const { checkAuth } = useAuth();
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
 
   if (isPending) return <div className='grow p-4'>대화 내역 불러오는 중</div>;
   if (isError)

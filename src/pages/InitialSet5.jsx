@@ -29,8 +29,6 @@ const InitialSet5 = () => {
         setHospitalId
         } = useProfileStore();
 
-      console.log(id, password, nickname, nationCode,languageCode, proficiency, certificationCode)
-
     return(
         <div className='-mb-20 h-dvh grid justify-items-center'>
             <div className="border-2 h-[80px] w-screen gird content-center">
@@ -59,7 +57,7 @@ const InitialSet5 = () => {
                 required
             />
 
-            <button className="mt-40 mb-8" onClick={()=>{
+            <button className="mt-40 mb-4" onClick={()=>{
                 navigator('/signup/initial-workhistory')
                 }}>
                 <div className='w-[324px] rounded-lg h-[49px] grid content-center font-semibold bg-blue text-white hover:bg-[#3b5998]/90'>다음</div>

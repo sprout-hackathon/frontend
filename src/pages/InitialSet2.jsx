@@ -82,8 +82,6 @@ const InitialSet2 = () => {
         } = useProfileStore();
 
     
-    console.log(nationCode,languageCode)
-
     return(
         <div className='-mb-20 h-dvh overflow-y-auto grid justify-items-center'>
             <div className="border-2 h-[80px] w-screen gird content-center">
@@ -104,14 +102,6 @@ const InitialSet2 = () => {
                 </h1>
             </div>
             <Dropdown textOptions = {textOptionsNation} value = {nationCode} setValue = {setNationCode} placeholder={"국적을 선택해주세요."}/>
-            {/* <input
-                type='nickname'
-                className='w-[324px] mb-4 h-[49px] grow rounded-lg border bg-gray-100 px-3 py-2 text-sm focus:outline-none'
-                placeholder="국가이름을 입력해주세요"
-                onChange={(e) => setNationCode(e.target.value)}
-                value={nationCode}
-                required
-            /> */}
             <div className="mb-10">
                 <h1 className="font-semibold mb-2">
                     사용언어(한국어 제외)
@@ -119,7 +109,7 @@ const InitialSet2 = () => {
                 <Dropdown textOptions = {textOptionsLang} value = {languageCode} setValue = {setLanguageCode} placeholder={"사용하시는 언어를 선택해주세요."}/>
             </div>
 
-            <button className="mt-10 pb-8" onClick={()=>{
+            <button className="mt-18 pb-4" onClick={()=>{
                 navigator('/signup/initial-prof')
                 }}>
                 <div className='w-[324px] rounded-lg h-[49px] grid content-center font-semibold bg-blue text-white hover:bg-[#3b5998]/90'>다음</div>

@@ -19,7 +19,7 @@ const Final = () => {
             <button className="mt-3 pb-5" onClick={()=>{
                 navigator('/login')
                 }}>
-                <div className='w-[324px] rounded-lg h-[49px] grid content-center font-semibold bg-blue text-white hover:bg-[#3b5998]/90'>메인페이지로 이동하기</div>
+                <div className='w-[324px] rounded-lg h-[49px] grid content-center font-semibold bg-blue text-white hover:bg-[#3b5998]/90'>로그인페이지로 이동하기</div>
             </button>
         </div>
 

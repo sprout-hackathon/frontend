@@ -113,14 +113,12 @@ const InitialSet6 = () => {
     setHospitalId
     } = useProfileStore();
 
-    console.log(typeof id, typeof password, typeof nickname, typeof nationCode, typeof languageCode, typeof proficiency, typeof hasCertification, typeof certificationCode, typeof workDuration, typeof hospitalId )
-
     return(
         
         <div className='-mb-20 h-dvh grid justify-items-center'>
             <div className="border-2 h-[80px] w-screen gird content-center">
                 <div className="text-3xl font-extralight ml-6 text-gray-500"
-                onClick={()=>navigator('/signup/initial-nation')}>
+                onClick={()=>navigator('/signup/initial-certification-number')}>
                     &lt;
                 </div>
             </div> 
@@ -150,7 +148,7 @@ const InitialSet6 = () => {
                 <div className='w-[324px] rounded-lg h-[49px] grid content-center font-semibold bg-gray-200 text-black hover:bg-blue-light/90'>건너뛰기</div>
             </button>
 
-            <button className="mt-3 pb-8" onClick={handleSubmit}>
+            <button className="mt-3 pb-3" onClick={handleSubmit}>
                 <div className='w-[324px] rounded-lg h-[49px] grid content-center font-semibold bg-blue text-white hover:bg-[#3b5998]/90'>다음</div>
             </button>
             </div>

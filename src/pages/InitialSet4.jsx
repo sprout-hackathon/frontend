@@ -31,8 +31,6 @@ const InitialSet4 = () => {
         setHospitalId
         } = useProfileStore();
 
-    console.log(hasCertification)
-
     const registerfetching = async (credentials) => {
         const response = await axios.post(`${BASE_URL}/api/users/register`, credentials);
         return response.data;
@@ -70,10 +68,10 @@ const InitialSet4 = () => {
     };
 
     return(
-        <div className='-mb-20 h-dvh grid justify-items-center'>
+        <div className='mb-2 h-dvh grid justify-items-center'>
             <div className="border-2 h-[80px] w-screen gird content-center">
                 <div className="text-3xl font-extralight ml-6 text-gray-500"
-                onClick={()=>navigator('/signup/initial-nation')}>
+                onClick={()=>navigator('/signup/initial-prof')}>
                     &lt;
                 </div>
             </div>  
@@ -98,7 +96,7 @@ const InitialSet4 = () => {
                 </div>
             </div>
 
-            <button className=" mb-8" onClick={handleSubmit}>
+            <button className=" mt-20" onClick={handleSubmit}>
                 <div className='w-[324px] rounded-lg h-[49px] grid content-center font-semibold bg-blue text-white hover:bg-[#3b5998]/90'>다음</div>
             </button>
 

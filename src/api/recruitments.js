@@ -8,7 +8,12 @@ const getRecruitmentList = async (region, page, size) => {
   const token = await getAccessToken();
 
   const res = await axios.get(url, {
-    params: { sido: region, page: page, size: size, sort: 'recruitmentId' },
+    params: {
+      sido: region === '전체' ? '' : region,
+      page: page,
+      size: size,
+      sort: 'recruitmentId',
+    },
     headers: { Authorization: `Bearer ${token}` },
   });
 

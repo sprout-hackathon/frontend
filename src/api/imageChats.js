@@ -50,7 +50,7 @@ const postSendImageMessage = async (imageRoomId, content, files) => {
   return res?.data;
 };
 
-const getImageRooms = async ({ date }) => {
+const getImageRoomList = async (date) => {
   const url = `${BASE_URL}/api/chats/images/rooms`;
   const token = await getAccessToken();
 
@@ -58,6 +58,24 @@ const getImageRooms = async ({ date }) => {
     params: { date: date },
     headers: { Authorization: `Bearer ${token}` },
   });
+
+  return res?.data;
 };
 
-export { postCreateImageRoom, postSendImageMessage };
+const getImageRoom = async (imageRoomId) => {
+  const url = `${BASE_URL}/api/chats/images/rooms/${imageRoomId}`;
+  const token = await getAccessToken();
+
+  const res = await axios.get(url, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  return res?.data;
+};
+
+export {
+  postCreateImageRoom,
+  postSendImageMessage,
+  getImageRoomList,
+  getImageRoom,
+};

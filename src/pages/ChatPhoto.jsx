@@ -25,10 +25,11 @@ const ChatPhoto = () => {
   const inputRef = useRef();
 
   const { mutate: createChatRoom } = useMutation({
-    mutationFn: (title, files) => postCreateImageRoom(title, files),
+    mutationFn: () => postCreateImageRoom(inputText, images),
     onSuccess: (data) => {
       chatroomIdRef.current = data.chatRoomId;
       setIsLoading(false);
+      setImages([]);
       setMessageList((list) => [
         ...list,
         { content: data.content, bot: data.bot },
@@ -37,10 +38,11 @@ const ChatPhoto = () => {
   });
 
   const { mutate: sendImageMessage } = useMutation({
-    mutationFn: (content, files) =>
-      postSendImageMessage(chatroomIdRef.current, content, files),
+    mutationFn: () =>
+      postSendImageMessage(chatroomIdRef.current, inputText, images),
     onSuccess: (data) => {
       setIsLoading(false);
+      setImages([]);
       setMessageList((list) => [
         ...list,
         { content: data.content, bot: data.bot },
@@ -66,16 +68,19 @@ const ChatPhoto = () => {
     if (isLoading || !inputText || images.length === 0) return;
     setMessageList((list) => [
       ...list,
-      { content: inputText, images: images, bot: false },
+      {
+        content: inputText,
+        images: images.map((image) => URL.createObjectURL(image)),
+        bot: false,
+      },
     ]);
     setIsLoading(true);
     if (messageList.length === 0) {
-      createChatRoom(inputText, images);
+      createChatRoom();
     } else {
-      sendImageMessage(inputText, images);
+      sendImageMessage();
     }
     setInputText('');
-    setImages([]);
   };
 
   return (

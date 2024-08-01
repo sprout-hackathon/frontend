@@ -6,8 +6,8 @@ const ImageModal = ({ images, onClose }) => {
     >
       {images.map((image) => (
         <img
-          key={URL.createObjectURL(image)}
-          src={URL.createObjectURL(image)}
+          key={image}
+          src={image}
           onClick={(e) => e.stopPropagation()}
           alt='img'
           draggable={false}

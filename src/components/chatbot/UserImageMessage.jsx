@@ -11,7 +11,7 @@ const UserImageMessage = ({ text, images }) => {
         className='relative mb-2 ml-auto h-48 w-36 rounded-2xl border'
       >
         <img
-          src={URL.createObjectURL(images[0])}
+          src={images[0]}
           alt='img'
           className='h-full w-full rounded-2xl object-cover'
         />

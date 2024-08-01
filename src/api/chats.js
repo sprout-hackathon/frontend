@@ -40,6 +40,22 @@ const postSendMessage = async (chatRoomId, content) => {
   return res?.data;
 };
 
+const postSendVoice = async (formData) => {
+  const url = `${BASE_URL}/api/chats/transcribe`;
+
+  const res = await axios.post(
+    url,
+    formData,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      timeout: 1000 * 60,
+    }
+  );
+  return res?.data;
+};
+
 const getChatRoomList = async (date) => {
   const url = `${BASE_URL}/api/chats/rooms`;
   const token = await getAccessToken();
@@ -63,4 +79,4 @@ const getChatLog = async (chatRoomId) => {
   return res?.data;
 };
 
-export { postCreateChatRoom, postSendMessage, getChatRoomList, getChatLog };
+export { postCreateChatRoom, postSendMessage, getChatRoomList, getChatLog, postSendVoice };

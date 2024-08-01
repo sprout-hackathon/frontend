@@ -15,9 +15,7 @@ const InitialSet6 = () => {
 
     const fetchHospitals = async (keyword) => {
         const response = await axios.get(`${BASE_URL}/api/hospitals`, {
-          headers: {
-            Accept: '*/*',  // 서버에서 모든 형식을 허용하도록 설정
-          },
+
           params: {
             keyword: keyword,  // 한글 키워드를 적절히 URL 인코딩
           },

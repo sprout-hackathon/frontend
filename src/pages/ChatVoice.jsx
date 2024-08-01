@@ -5,7 +5,7 @@ import ChatbotMessage from '../components/chatbot/ChatbotMessage';
 import { useEffect, useRef, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import UserMessage from '../components/chatbot/UserMessage';
-import { postCreateChatRoom, postSendMessage } from '../api/chats';
+import { postSendVoice, postSendMessage } from '../api/chats';
 import useAuth from '../hooks/useAuth';
 
 const firstMessage = `반가워요!
@@ -15,10 +15,10 @@ const firstMessage = `반가워요!
 
 const ChatVoice = () => {
     const [messageList, setMessageList] = useState([]);
-    const chatRoomId = useRef();
     const navigate = useNavigate();
     const [isRecording, setIsRecording] = useState(false);
     const [audioUrl, setAudioUrl] = useState(null);
+    const [form, setForm] = useState()
     const mediaRecorderRef = useRef(null);
     const audioChunksRef = useRef([]);
   
@@ -29,35 +29,31 @@ const ChatVoice = () => {
     checkAuth();
   }, [checkAuth]);
 
-  const { mutate: createChatroom, createIsPending } = useMutation({
-    mutationFn: (title) => postCreateChatRoom(title),
-    onSuccess: (data) => {
-      chatRoomId.current = data.chatRoomId;
-      setMessageList((list) => [
-        ...list,
-        { content: data.content, isBot: data.bot },
-      ]);
-    },
-    onError: (err) => console.log(err),
-  });
+  // const { mutate: createChatroom, createIsPending } = useMutation({
+  //   mutationFn: (title) => postCreateChatRoom(title),
+  //   onSuccess: (data) => {
+  //     chatRoomId.current = data.chatRoomId;
+  //     setMessageList((list) => [
+  //       ...list,
+  //       { content: data.content, isBot: data.bot },
+  //     ]);
+  //   },
+  //   onError: (err) => console.log(err),
+  // });
 
   const { mutate: sendMessage, sendIsPending } = useMutation({
-    mutationFn: (content) => postSendMessage(chatRoomId.current, content),
+    mutationFn: (content) => postSendVoice(content),
     onSuccess: (data) => {
       setMessageList((list) => [
         ...list,
-        { content: data.content, isBot: data.bot },
+        { content: data, isBot: true },
       ]);
     },
   });
 
-  const handleSendMessage = (content) => {
+  const handleSendMessage = ({audioUrl}) => {
     setMessageList((list) => [...list, { isBot: false, audio: audioUrl}]);
-    if (messageList.length === 0) {
-      createChatroom(content); // 채팅방 생성
-    } else {
-      sendMessage(content); // 채팅 메세지 전송
-    }
+    sendMessage(form); // 채팅 메세지 전송
   };
 
     const startRecording = () => {
@@ -92,10 +88,7 @@ const ChatVoice = () => {
     const uploadAudio = async (audioBlob) => {
         const formData = new FormData();
         formData.append('file', audioBlob, 'recording.wav');
-        for (let value of formData.values()){
-            console.log(value)
-        }
-    
+        setForm(formData)
         // try {
         //   const response = await axios.post('https://your-server-url.com/upload', formData, {
         //     headers: {
@@ -135,7 +128,7 @@ const ChatVoice = () => {
             <UserMessage key={msg.audio} audio={msg.audio} />
           )
         )}
-        {(createIsPending || sendIsPending) && (
+        {(sendIsPending) && (
           <ChatbotMessage key={-1} text={'...'} />
         )}
       </div>
@@ -174,7 +167,7 @@ const ChatVoice = () => {
                     }
                     </button>
                     {audioUrl&&(
-                        <button onClick={() => handleSendMessage(audioUrl)}>
+                        <button onClick={() => handleSendMessage({audioUrl})}>
                             <div className='font-semibold text-gray-500'>
                                 챗봇에게 보내기
                             </div>
